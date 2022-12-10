@@ -5,7 +5,7 @@ const config = JSON.parse(fs.readFileSync(`${__dirname}/.swcrc`, "utf-8"));
 
 module.exports = {
   moduleFileExtensions: ["js", "json", "ts"],
-  rootDir: `${
+  rootDir: `./${
     process.env.JEST_ROOT_DIR ? "/" + process.env.JEST_ROOT_DIR : ""
   }`,
   testRegex: "\\.*\\.spec\\.ts$",
