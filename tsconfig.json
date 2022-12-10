@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true
+  },
+  "include": ["**/*/*.spec.ts"],
+  "exclude": ["node_modules"]
+}
