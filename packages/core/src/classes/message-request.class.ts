@@ -40,6 +40,15 @@ export class MessageRequest {
     this.state = MessageRequestState.APPLY_PREPUBLISH_MIDDLEWARE;
   }
 
+  public setStatePublish(): void {
+    if (this.state !== MessageRequestState.APPLY_PREPUBLISH_MIDDLEWARE)
+      throw new InvalidMessageRequestStateException(
+        this.state,
+        MessageRequestState.PUBLISH,
+      );
+    this.state = MessageRequestState.PUBLISH;
+  }
+
   public static generateRequest(message: IMessage): MessageRequest {
     const request = new MessageRequest(message);
     request.state = MessageRequestState.INITIATED;

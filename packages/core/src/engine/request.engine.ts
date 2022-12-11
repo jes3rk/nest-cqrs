@@ -1,5 +1,6 @@
 import {
   ExceptionFilter,
+  Inject,
   Injectable,
   OnApplicationBootstrap,
 } from "@nestjs/common";
@@ -7,11 +8,13 @@ import { MessageRequest } from "../classes/message-request.class";
 import {
   EXCEPTION_FILTER_METADATA,
   MessageRequestState,
+  MESSAGE_PUBLISHER,
   PREPUBLISH_MIDDLEWARE_METADATA,
 } from "../cqrs.constants";
 import { IPreProcessMiddleware } from "../interfaces/preprocess-middleware.interface";
 import { IPrePublishMiddleware } from "../interfaces/prepublish-middleware.interface";
 import { DiscoveryService } from "@nestjs/core";
+import { IPublisher } from "../interfaces/publisher.interface";
 
 @Injectable()
 export class RequestEngine implements OnApplicationBootstrap {
@@ -19,7 +22,10 @@ export class RequestEngine implements OnApplicationBootstrap {
   private preProcessMiddleware: IPreProcessMiddleware[];
   private filters: Map<string, ExceptionFilter[]>;
 
-  constructor(private readonly explorer: DiscoveryService) {
+  constructor(
+    private readonly explorer: DiscoveryService,
+    @Inject(MESSAGE_PUBLISHER) private readonly publisher: IPublisher,
+  ) {
     this.prePublishMiddleware = [];
     this.preProcessMiddleware = [];
     this.filters = new Map();
@@ -45,12 +51,24 @@ export class RequestEngine implements OnApplicationBootstrap {
     return this.handleMessageRequest(message);
   }
 
+  private async _handleStatePublish(message: MessageRequest): Promise<void> {
+    try {
+      message.setStatePublish();
+      await this.publisher.publish(message);
+    } catch (err) {
+      message.setStateErrored(err);
+    }
+    return this.handleMessageRequest(message);
+  }
+
   public handleMessageRequest(message: MessageRequest): Promise<void> {
     switch (message.STATE) {
       case MessageRequestState.INITIATED:
         return this._handleStateInitiated(message);
       case MessageRequestState.APPLY_FILTERS:
         return this._handleStateFilters(message);
+      case MessageRequestState.APPLY_PREPUBLISH_MIDDLEWARE:
+        return this._handleStatePublish(message);
     }
   }
 

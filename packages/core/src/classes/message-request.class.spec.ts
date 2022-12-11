@@ -3,7 +3,6 @@ import { MessageRequest } from "./message-request.class";
 import { faker } from "@faker-js/faker";
 import { MessageRequestState } from "../cqrs.constants";
 import { IPrePublishMiddleware } from "../interfaces/prepublish-middleware.interface";
-import { IPreProcessMiddleware } from "../interfaces/preprocess-middleware.interface";
 import { InvalidMessageRequestStateException } from "../exceptions/invalid-message-request-state.exception";
 
 describe("MessageRequest", () => {
@@ -57,6 +56,31 @@ describe("MessageRequest", () => {
       await message.applyMiddleware(middleware);
       expect(middleware.apply).toHaveBeenCalledTimes(1);
       expect(middleware.apply).toHaveBeenCalledWith(message.message);
+    });
+  });
+
+  describe("publish", () => {
+    let message: MessageRequest;
+
+    beforeEach(() => {
+      message = MessageRequest.generateRequest({
+        $idempotentID: faker.datatype.uuid(),
+        $name: "TestMessage",
+        $uuid: faker.datatype.uuid(),
+      });
+      message["state"] = MessageRequestState.APPLY_PREPUBLISH_MIDDLEWARE;
+    });
+
+    it("will correctly change the state", () => {
+      message.setStatePublish();
+      expect(message.STATE).toEqual(MessageRequestState.PUBLISH);
+    });
+
+    it("will throw an error if the state is incorrect", () => {
+      message["state"] = MessageRequestState.APPLY_FILTERS;
+      expect(() => message.setStatePrePublish()).toThrowError(
+        InvalidMessageRequestStateException,
+      );
     });
   });
 });
