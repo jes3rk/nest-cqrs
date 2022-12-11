@@ -1,5 +1,5 @@
-import { MessageRequest } from "../classes/message-request.class";
+import { IMessage } from "./message.interface";
 
 export interface IPublisher {
-  publish(message: MessageRequest): Promise<void>;
+  publish(message: IMessage): Promise<void>;
 }

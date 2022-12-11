@@ -1,10 +1,6 @@
 import { RequestEngine } from "./request.engine";
 import { Test } from "@nestjs/testing";
-import {
-  MessageRequestState,
-  MessageType,
-  MESSAGE_PUBLISHER,
-} from "../cqrs.constants";
+import { MessageRequestState, MessageType } from "../cqrs.constants";
 import { MessageRequest } from "../classes/message-request.class";
 import { faker } from "@faker-js/faker";
 import { IPrePublishMiddleware } from "../interfaces/prepublish-middleware.interface";
@@ -14,6 +10,7 @@ import { DiscoveryService } from "@nestjs/core";
 import { ExceptionFilter } from "@nestjs/common";
 import { CQRSFilter } from "../decorators/cqrs-filter.decorator";
 import { IPublisher } from "../interfaces/publisher.interface";
+import { MessagePublisher } from "../publishers/message.publisher";
 
 describe("RequestEngine", () => {
   let engine: RequestEngine;
@@ -43,7 +40,7 @@ describe("RequestEngine", () => {
         DiscoveryService,
         TestFilter,
         {
-          provide: MESSAGE_PUBLISHER,
+          provide: MessagePublisher,
           useValue: {
             publish: jest.fn(),
           },
@@ -54,7 +51,7 @@ describe("RequestEngine", () => {
     engine = module.get(RequestEngine);
     preMiddleware = module.get(TestPreMiddleware);
     filter = module.get(TestFilter);
-    publisher = module.get(MESSAGE_PUBLISHER);
+    publisher = module.get(MessagePublisher);
     engine.onApplicationBootstrap();
   });
 

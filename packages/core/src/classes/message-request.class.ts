@@ -1,3 +1,4 @@
+import { instanceToPlain } from "class-transformer";
 import { MessageRequestState } from "../cqrs.constants";
 import { InvalidMessageRequestStateException } from "../exceptions/invalid-message-request-state.exception";
 import { IMessage } from "../interfaces/message.interface";
@@ -67,6 +68,10 @@ export class MessageRequest {
         MessageRequestState.PUBLISH,
       );
     this.state = MessageRequestState.PUBLISH;
+  }
+
+  public toPlainMessage(): IMessage {
+    return instanceToPlain(this._message) as IMessage;
   }
 
   public static generateRequest(

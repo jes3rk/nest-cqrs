@@ -8,13 +8,12 @@ import { MessageRequest } from "../classes/message-request.class";
 import {
   EXCEPTION_FILTER_METADATA,
   MessageRequestState,
-  MESSAGE_PUBLISHER,
   PREPUBLISH_MIDDLEWARE_METADATA,
 } from "../cqrs.constants";
 import { IPreProcessMiddleware } from "../interfaces/preprocess-middleware.interface";
 import { IPrePublishMiddleware } from "../interfaces/prepublish-middleware.interface";
 import { DiscoveryService } from "@nestjs/core";
-import { IPublisher } from "../interfaces/publisher.interface";
+import { MessagePublisher } from "../publishers/message.publisher";
 
 @Injectable()
 export class RequestEngine implements OnApplicationBootstrap {
@@ -24,7 +23,7 @@ export class RequestEngine implements OnApplicationBootstrap {
 
   constructor(
     private readonly explorer: DiscoveryService,
-    @Inject(MESSAGE_PUBLISHER) private readonly publisher: IPublisher,
+    private readonly publisher: MessagePublisher,
   ) {
     this.prePublishMiddleware = [];
     this.preProcessMiddleware = [];

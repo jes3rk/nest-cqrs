@@ -1,4 +1,4 @@
-export const MESSAGE_PUBLISHER = "__message-publisher__";
+export const EVENT_PUBLISHER = "__event-publisher__";
 export const EXCEPTION_FILTER_METADATA = "__filter__";
 export const PREPUBLISH_MIDDLEWARE_METADATA = "__prepublish-middleware__";
 
