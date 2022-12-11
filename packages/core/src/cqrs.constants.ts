@@ -10,3 +10,7 @@ export enum MessageRequestState {
   PROCESS = "PROCESS",
   APPLY_FILTERS = "APPLY_FILTERS",
 }
+
+export enum MessageType {
+  EVENT = "EVENT",
+}

@@ -1,6 +1,10 @@
 import { RequestEngine } from "./request.engine";
 import { Test } from "@nestjs/testing";
-import { MessageRequestState, MESSAGE_PUBLISHER } from "../cqrs.constants";
+import {
+  MessageRequestState,
+  MessageType,
+  MESSAGE_PUBLISHER,
+} from "../cqrs.constants";
 import { MessageRequest } from "../classes/message-request.class";
 import { faker } from "@faker-js/faker";
 import { IPrePublishMiddleware } from "../interfaces/prepublish-middleware.interface";
@@ -62,11 +66,14 @@ describe("RequestEngine", () => {
     let message: MessageRequest;
 
     beforeEach(() => {
-      message = new MessageRequest({
-        $idempotentID: faker.datatype.uuid(),
-        $name: "TestMessage",
-        $uuid: faker.datatype.uuid(),
-      });
+      message = new MessageRequest(
+        {
+          $metadata: {},
+          $name: "TestMessage",
+          $uuid: faker.datatype.uuid(),
+        },
+        MessageType.EVENT,
+      );
       message["state"] = MessageRequestState.INITIATED;
     });
 

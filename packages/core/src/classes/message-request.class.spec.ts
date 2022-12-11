@@ -1,7 +1,7 @@
 import { IMessage } from "../interfaces/message.interface";
 import { MessageRequest } from "./message-request.class";
 import { faker } from "@faker-js/faker";
-import { MessageRequestState } from "../cqrs.constants";
+import { MessageRequestState, MessageType } from "../cqrs.constants";
 import { IPrePublishMiddleware } from "../interfaces/prepublish-middleware.interface";
 import { InvalidMessageRequestStateException } from "../exceptions/invalid-message-request-state.exception";
 
@@ -11,13 +11,16 @@ describe("MessageRequest", () => {
 
     beforeEach(() => {
       message = {
-        $idempotentID: faker.datatype.uuid(),
+        $metadata: {},
         $name: "TestMessage",
         $uuid: faker.datatype.uuid(),
       };
     });
     it("will generate a new MessageRequest with state INITIATED", () => {
-      const request = MessageRequest.generateRequest(message);
+      const request = MessageRequest.generateRequest(
+        message,
+        MessageType.EVENT,
+      );
       expect(request.STATE).toEqual(MessageRequestState.INITIATED);
       expect(request.message).toEqual(message);
     });
@@ -28,11 +31,14 @@ describe("MessageRequest", () => {
     let middleware: IPrePublishMiddleware;
 
     beforeEach(() => {
-      message = MessageRequest.generateRequest({
-        $idempotentID: faker.datatype.uuid(),
-        $name: "TestMessage",
-        $uuid: faker.datatype.uuid(),
-      });
+      message = MessageRequest.generateRequest(
+        {
+          $metadata: {},
+          $name: "TestMessage",
+          $uuid: faker.datatype.uuid(),
+        },
+        MessageType.EVENT,
+      );
       middleware = {
         apply: jest.fn((msg) => msg),
       };
@@ -63,11 +69,14 @@ describe("MessageRequest", () => {
     let message: MessageRequest;
 
     beforeEach(() => {
-      message = MessageRequest.generateRequest({
-        $idempotentID: faker.datatype.uuid(),
-        $name: "TestMessage",
-        $uuid: faker.datatype.uuid(),
-      });
+      message = MessageRequest.generateRequest(
+        {
+          $metadata: {},
+          $name: "TestMessage",
+          $uuid: faker.datatype.uuid(),
+        },
+        MessageType.EVENT,
+      );
       message["state"] = MessageRequestState.APPLY_PREPUBLISH_MIDDLEWARE;
     });
 

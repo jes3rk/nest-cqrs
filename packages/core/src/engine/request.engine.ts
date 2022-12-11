@@ -65,10 +65,10 @@ export class RequestEngine implements OnApplicationBootstrap {
     switch (message.STATE) {
       case MessageRequestState.INITIATED:
         return this._handleStateInitiated(message);
-      case MessageRequestState.APPLY_FILTERS:
-        return this._handleStateFilters(message);
       case MessageRequestState.APPLY_PREPUBLISH_MIDDLEWARE:
         return this._handleStatePublish(message);
+      case MessageRequestState.APPLY_FILTERS:
+        return this._handleStateFilters(message);
     }
   }
 
