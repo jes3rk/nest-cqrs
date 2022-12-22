@@ -5,7 +5,7 @@ import { IEvent } from "../interfaces/event.interface";
 import { MessageRequest } from "./message-request.class";
 
 @Injectable()
-export class EventPublisher {
+export class EventClient {
   constructor(private readonly engine: RequestEngine) {}
 
   /**

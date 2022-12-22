@@ -27,7 +27,6 @@
    * for details about these alternatives.
    */
   "pnpmVersion": "6.7.1",
-
   // "npmVersion": "6.14.15",
   // "yarnVersion": "1.9.4",
 
@@ -319,8 +318,23 @@
    */
   "projects": [
     {
+      "packageName": "class-transformer-storage",
+      "projectFolder": "packages/class-transformer-storage",
+      "shouldPublish": true
+    },
+    {
       "packageName": "@nest-cqrs/core",
       "projectFolder": "packages/core",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@nest-cqrs/eventstoredb",
+      "projectFolder": "packages/eventstoredb",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@nest-cqrs/messenger",
+      "projectFolder": "packages/messenger",
       "shouldPublish": true
     }
     // {

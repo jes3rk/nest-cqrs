@@ -2,17 +2,17 @@ import { Test } from "@nestjs/testing";
 import { MessageType } from "../cqrs.constants";
 import { RequestEngine } from "../engine/request.engine";
 import { IEvent } from "../interfaces/event.interface";
-import { EventPublisher } from "./event.publisher";
+import { EventClient } from "./event.client";
 import { Event } from "./_base.event";
 
-describe("EventPublisher", () => {
-  let eventPublisher: EventPublisher;
+describe("EventClient", () => {
+  let eventClient: EventClient;
   let engine: RequestEngine;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       providers: [
-        EventPublisher,
+        EventClient,
         {
           provide: RequestEngine,
           useValue: {
@@ -22,12 +22,12 @@ describe("EventPublisher", () => {
       ],
     }).compile();
 
-    eventPublisher = module.get(EventPublisher);
+    eventClient = module.get(EventClient);
     engine = module.get(RequestEngine);
   });
 
   it("will be defined", () => {
-    expect(eventPublisher).toBeDefined();
+    expect(eventClient).toBeDefined();
   });
 
   describe("emit", () => {
@@ -40,7 +40,7 @@ describe("EventPublisher", () => {
 
     it("will create a message request and pass to the engine", async () => {
       const handleSpy = jest.spyOn(engine, "handleMessageRequest");
-      await eventPublisher.emit(event);
+      await eventClient.emit(event);
 
       expect(handleSpy).toHaveBeenCalledWith(
         expect.objectContaining({

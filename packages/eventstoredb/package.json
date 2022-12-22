@@ -1,5 +1,5 @@
 {
-  "name": "@nest-cqrs/core",
+  "name": "@nest-cqrs/eventstoredb",
   "version": "0.0.0",
   "main": "dist/index.js",
   "peerDependencies": {
@@ -22,11 +22,14 @@
   "scripts": {
     "build": "npm run prebuild && tsc -p tsconfig.build.json",
     "prebuild": "rimraf ./dist",
-    "test": "env JEST_ROOT_DIR=packages/core jest --config ../../jest.config.js"
+    "test": "env JEST_ROOT_DIR=packages/eventstoredb jest --config ../../jest.config.js"
   },
   "dependencies": {
     "class-transformer": "~0.5.1",
     "reflect-metadata": "~0.1.13",
-    "@nest-cqrs/messenger": "0.0.0"
+    "@nest-cqrs/core": "*",
+    "@eventstore/db-client": "~5.0.0",
+    "@nest-cqrs/messenger": "0.0.0",
+    "class-transformer-storage": "~0.0.0"
   }
 }
