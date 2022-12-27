@@ -14,10 +14,16 @@ import { IPreProcessMiddleware } from "../interfaces/preprocess-middleware.inter
 import { IPrePublishMiddleware } from "../interfaces/prepublish-middleware.interface";
 import { DiscoveryService } from "@nestjs/core";
 import { MessagePublisher } from "../publishers/message.publisher";
+import { IEvent } from "../interfaces/event.interface";
+import { initializeAndAddToArrayMap } from "../cqrs.utilites";
 
 @Injectable()
 export class RequestEngine implements OnApplicationBootstrap {
-  private prePublishMiddleware: IPrePublishMiddleware[];
+  private globalPrePublishMiddleware: IPrePublishMiddleware[];
+  private scopedPrePublishMiddleware: Map<
+    IEvent["$name"],
+    IPrePublishMiddleware[]
+  >;
   private preProcessMiddleware: IPreProcessMiddleware[];
   private filters: Map<string, ExceptionFilter[]>;
 
@@ -25,7 +31,9 @@ export class RequestEngine implements OnApplicationBootstrap {
     private readonly explorer: DiscoveryService,
     private readonly publisher: MessagePublisher,
   ) {
-    this.prePublishMiddleware = [];
+    this.globalPrePublishMiddleware = [];
+    this.scopedPrePublishMiddleware = new Map();
+
     this.preProcessMiddleware = [];
     this.filters = new Map();
   }
@@ -41,7 +49,9 @@ export class RequestEngine implements OnApplicationBootstrap {
   private async _handleStateInitiated(message: MessageRequest): Promise<void> {
     try {
       message.setStatePrePublish();
-      for await (const middleware of this.prePublishMiddleware) {
+      for await (const middleware of this.globalPrePublishMiddleware.concat(
+        this.scopedPrePublishMiddleware.get(message.$name) || [],
+      )) {
         await message.applyMiddleware(middleware);
       }
     } catch (err) {
@@ -80,8 +90,24 @@ export class RequestEngine implements OnApplicationBootstrap {
           PREPUBLISH_MIDDLEWARE_METADATA,
           instance.constructor,
         )
-      )
-        this.prePublishMiddleware.push(instance);
+      ) {
+        const eventNames: string[] = Reflect.getMetadata(
+          PREPUBLISH_MIDDLEWARE_METADATA,
+          instance.constructor,
+        );
+        if (eventNames.length > 0) {
+          eventNames.forEach((name) =>
+            initializeAndAddToArrayMap(
+              this.scopedPrePublishMiddleware,
+              name,
+              instance,
+            ),
+          );
+        } else {
+          this.globalPrePublishMiddleware.push(instance);
+        }
+      }
+
       if (
         Reflect.hasMetadata(EXCEPTION_FILTER_METADATA, instance.constructor)
       ) {

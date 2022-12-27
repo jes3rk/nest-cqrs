@@ -23,6 +23,10 @@ export class MessageRequest {
     return this._message;
   }
 
+  public get $name(): IMessage["$name"] {
+    return this._message.$name;
+  }
+
   /**
    * Apply a middleware to the message request
    */

@@ -11,15 +11,26 @@ import { ExceptionFilter } from "@nestjs/common";
 import { CQRSFilter } from "../decorators/cqrs-filter.decorator";
 import { IPublisher } from "../interfaces/publisher.interface";
 import { MessagePublisher } from "../publishers/message.publisher";
+import { Message } from "../classes/_base.message";
 
 describe("RequestEngine", () => {
   let engine: RequestEngine;
   let preMiddleware: TestPreMiddleware;
+  let scopedPreMiddleware: ScopedTestPreMiddleware;
   let filter: ExceptionFilter;
   let publisher: IPublisher;
 
+  class TestMessage extends Message implements IMessage {}
+
   @PrePublishMiddleware()
   class TestPreMiddleware implements IPrePublishMiddleware {
+    apply(message: IMessage): IMessage | Promise<IMessage> {
+      return message;
+    }
+  }
+
+  @PrePublishMiddleware(TestMessage)
+  class ScopedTestPreMiddleware implements IPrePublishMiddleware {
     apply(message: IMessage): IMessage | Promise<IMessage> {
       return message;
     }
@@ -39,6 +50,7 @@ describe("RequestEngine", () => {
         TestPreMiddleware,
         DiscoveryService,
         TestFilter,
+        ScopedTestPreMiddleware,
         {
           provide: MessagePublisher,
           useValue: {
@@ -50,6 +62,7 @@ describe("RequestEngine", () => {
 
     engine = module.get(RequestEngine);
     preMiddleware = module.get(TestPreMiddleware);
+    scopedPreMiddleware = module.get(ScopedTestPreMiddleware);
     filter = module.get(TestFilter);
     publisher = module.get(MessagePublisher);
     engine.onApplicationBootstrap();
@@ -79,8 +92,16 @@ describe("RequestEngine", () => {
       expect(message.STATE).toEqual(MessageRequestState.PUBLISH);
     });
 
-    it("will apply the middleware functions", async () => {
+    it("will apply global middleware functions", async () => {
       const preSpy = jest.spyOn(preMiddleware, "apply");
+      await engine.handleMessageRequest(message);
+
+      expect(preSpy).toHaveBeenCalledTimes(1);
+      expect(preSpy).toHaveBeenCalledWith(message.message);
+    });
+
+    it("will apply local middleware functions", async () => {
+      const preSpy = jest.spyOn(scopedPreMiddleware, "apply");
       await engine.handleMessageRequest(message);
 
       expect(preSpy).toHaveBeenCalledTimes(1);
