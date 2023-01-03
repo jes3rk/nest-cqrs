@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
-import { initializeAndAddToArrayMap } from "./cqrs.utilites";
+import { generateStreamID, initializeAndAddToArrayMap } from "./cqrs.utilites";
+import { Aggregate } from "./decorators/aggregate.decorator";
 
 describe("Utilities", () => {
   describe("initializeAndAddToArrayMap", () => {
@@ -23,6 +24,26 @@ describe("Utilities", () => {
       initializeAndAddToArrayMap(map, key, value);
       expect(map.size).toEqual(1);
       expect(map.get(key)).toMatchObject([expect.any(String), value]);
+    });
+  });
+
+  describe("generateStreamID", () => {
+    let id: string;
+
+    beforeEach(() => {
+      id = faker.datatype.uuid();
+    });
+
+    it("will generate a parsed name from the aggregate", () => {
+      class DummyAggregate {}
+      expect(generateStreamID(id, DummyAggregate)).toEqual(`dummy.${id}`);
+    });
+
+    it("will allow overriding the default name", () => {
+      @Aggregate({ name: "hello" })
+      class DummyAggregate {}
+
+      expect(generateStreamID(id, DummyAggregate)).toEqual(`hello.${id}`);
     });
   });
 });
