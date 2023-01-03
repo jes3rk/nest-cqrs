@@ -1,5 +1,5 @@
 {
-  "name": "@nest-cqrs/messenger",
+  "name": "nest-messenger",
   "version": "0.0.0",
   "main": "dist/index.js",
   "peerDependencies": {

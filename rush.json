@@ -333,9 +333,13 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@nest-cqrs/messenger",
+      "packageName": "nest-messenger",
       "projectFolder": "packages/messenger",
       "shouldPublish": true
+    },
+    {
+      "packageName": "@demo/monolith",
+      "projectFolder": "demo/monolith"
     }
     // {
     //   /**
