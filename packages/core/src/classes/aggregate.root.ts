@@ -3,6 +3,7 @@ import { IEvent } from "../interfaces/event.interface";
 
 export abstract class AggregateRoot {
   private _applyMap: Map<IEvent["$name"], keyof this>;
+  public $updatedAt: Date;
 
   public apply(event: IEvent): void {
     if (!this._applyMap) {
@@ -13,5 +14,6 @@ export abstract class AggregateRoot {
         this,
         event,
       );
+    this.$updatedAt = event.$timestamp;
   }
 }

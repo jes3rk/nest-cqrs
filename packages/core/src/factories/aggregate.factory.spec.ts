@@ -65,6 +65,7 @@ describe("AggregateFactory", () => {
       reader.EVENTS.forEach((e) => {
         expect(agg.handleTestEvent).toHaveBeenCalledWith(e);
       });
+      expect(agg.$updatedAt).toEqual(reader.EVENTS.at(-1).$timestamp);
     });
 
     it("will load a new aggregate", async () => {
@@ -76,6 +77,8 @@ describe("AggregateFactory", () => {
     it("will handle an aggregate using the decorator", async () => {
       @Aggregate()
       class MixinAggregate {
+        public $updatedAt: Date;
+
         @Apply(TestEvent)
         handleTestEvent = jest.fn();
       }
@@ -88,6 +91,7 @@ describe("AggregateFactory", () => {
       reader.EVENTS.forEach((e) => {
         expect(agg.handleTestEvent).toHaveBeenCalledWith(e);
       });
+      expect(agg.$updatedAt).toEqual(reader.EVENTS.at(-1).$timestamp);
     });
   });
 });

@@ -8,10 +8,13 @@ export abstract class Message {
   @Type(() => MessageMetadata)
   public readonly $metadata: MessageMetadata;
   public readonly $name: string;
+  @Type(() => Date)
+  public readonly $timestamp: Date;
   public readonly $uuid: string;
 
   constructor() {
     this.$name = this.constructor.name;
+    this.$timestamp = new Date();
     this.$uuid = randomUUID();
   }
 }
