@@ -6,7 +6,9 @@ describe("EventParser", () => {
   let parser: EventParser;
 
   @RegisterType()
-  class TestEvent extends Event implements IEvent {}
+  class TestEvent extends Event implements IEvent {
+    public $payload: unknown;
+  }
 
   beforeEach(() => {
     parser = new EventParser();

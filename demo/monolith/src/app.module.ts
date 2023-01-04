@@ -12,7 +12,7 @@ import { configureEventStoreDB } from "@nest-cqrs/eventstoredb";
         eventStoreConfig: {
           useValue: {
             connectionString:
-              "esdb+discover://localhost:2113?keepAliveTimeout=10000&keepAliveInterval=10000",
+              "esdb://localhost:2113?tls=false&keepAliveTimeout=10000&keepAliveInterval=10000",
           },
         },
       }),

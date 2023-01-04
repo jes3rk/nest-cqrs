@@ -1,10 +1,15 @@
 import { EventStoreDBClient } from "@eventstore/db-client";
-import { Inject, Injectable, OnModuleInit } from "@nestjs/common";
+import {
+  Inject,
+  Injectable,
+  OnApplicationShutdown,
+  OnModuleInit,
+} from "@nestjs/common";
 import { EVENT_STORE_CONFIG } from "./eventstore.constants";
 import { EventstoreDBConfig } from "./interfaces/eventstore.config";
 
 @Injectable()
-export class EventStoreClient implements OnModuleInit {
+export class EventStoreClient implements OnModuleInit, OnApplicationShutdown {
   private _client: EventStoreDBClient;
 
   constructor(
@@ -19,5 +24,9 @@ export class EventStoreClient implements OnModuleInit {
     this._client = this._config.connectionString
       ? EventStoreDBClient.connectionString(this._config.connectionString)
       : undefined;
+  }
+
+  public async onApplicationShutdown() {
+    await this._client.dispose();
   }
 }

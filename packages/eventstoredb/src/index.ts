@@ -2,6 +2,7 @@ import {
   PluginConfiguration,
   CQRSProvider,
   EVENT_PUBLISHER,
+  EVENT_READER,
 } from "@nest-cqrs/core";
 import { EventStoreClient } from "./eventstore.client";
 import { EventStorePublisher } from "./eventstore.publisher";
@@ -13,6 +14,7 @@ import {
   Provider,
   ValueProvider,
 } from "@nestjs/common";
+import { EventstoreReader } from "./eventstore.reader";
 
 export function configureEventStoreDB(config: {
   eventStoreConfig: CQRSProvider<EventstoreDBConfig>;
@@ -23,6 +25,10 @@ export function configureEventStoreDB(config: {
       {
         provide: EVENT_PUBLISHER,
         useClass: EventStorePublisher,
+      },
+      {
+        provide: EVENT_READER,
+        useClass: EventstoreReader,
       },
       {
         provide: EVENT_STORE_CONFIG,

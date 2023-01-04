@@ -22,10 +22,14 @@ export class EventstoreReader implements IEventReader {
     try {
       for await (const raw of stream) {
         const event = parser.readFromJsonEvent(raw as JSONEvent);
+        event.$streamID = streamId;
         callback(event);
       }
     } catch (err) {
-      if (!(err instanceof StreamNotFoundError)) throw err;
+      if (err instanceof StreamNotFoundError) {
+        return;
+      }
+      throw err;
     }
   }
 }

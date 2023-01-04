@@ -7,7 +7,7 @@ export { Event } from "./classes/_base.event";
 export { EventClient } from "./classes/event.client";
 export { EventFactory } from "./factories/event.factory";
 export { CQRSModule } from "./cqrs.module";
-export { EVENT_PUBLISHER } from "./cqrs.constants";
+export { EVENT_PUBLISHER, EVENT_READER } from "./cqrs.constants";
 
 export type { IEvent } from "./interfaces/event.interface";
 export type { IPublisher } from "./interfaces/publisher.interface";

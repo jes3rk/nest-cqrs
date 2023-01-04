@@ -14,8 +14,13 @@ export class EventParser {
    * Take an event and format it according to the eventstoredb spec
    */
   public parseToJsonEvent(message: IEvent): JSONEvent {
-    const { $metadata, $name, $uuid, ...rest } =
-      instanceToPlain<IEvent>(message);
+    const {
+      $metadata,
+      $name,
+      $uuid,
+      $streamID: _,
+      ...rest
+    } = instanceToPlain<IEvent>(message);
     return jsonEvent<JSONEventType<IEvent["$name"], Record<string, unknown>>>({
       data: rest,
       id: $uuid,

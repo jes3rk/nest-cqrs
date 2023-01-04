@@ -1,4 +1,4 @@
-import { DynamicModule, Module } from "@nestjs/common";
+import { DynamicModule, Global, Module } from "@nestjs/common";
 import { MessengerModule } from "nest-messenger";
 import { EventClient } from "./classes/event.client";
 import { RequestEngine } from "./engine/request.engine";
@@ -7,11 +7,18 @@ import { MessagePublisher } from "./publishers/message.publisher";
 import { ConfigModule } from "@nestjs/config";
 import { DiscoveryModule } from "@nestjs/core";
 import { EventFactory } from "./factories/event.factory";
+import { AggregateFactory } from "./factories/aggregate.factory";
 
 @Module({
   imports: [DiscoveryModule, MessengerModule],
-  providers: [EventClient, EventFactory, MessagePublisher, RequestEngine],
-  exports: [EventClient, EventFactory],
+  providers: [
+    AggregateFactory,
+    EventClient,
+    EventFactory,
+    MessagePublisher,
+    RequestEngine,
+  ],
+  exports: [AggregateFactory, EventClient, EventFactory],
 })
 export class CQRSModule {
   /**
