@@ -1,15 +1,23 @@
 import { EventStoreDBClient } from "@eventstore/db-client";
-import { Injectable, OnModuleInit } from "@nestjs/common";
+import { Inject, Injectable, OnModuleInit } from "@nestjs/common";
+import { EVENT_STORE_CONFIG } from "./eventstore.constants";
+import { EventstoreDBConfig } from "./interfaces/eventstore.config";
 
 @Injectable()
 export class EventStoreClient implements OnModuleInit {
   private _client: EventStoreDBClient;
+
+  constructor(
+    @Inject(EVENT_STORE_CONFIG) private readonly _config: EventstoreDBConfig,
+  ) {}
 
   public get client(): EventStoreDBClient {
     return this._client;
   }
 
   public onModuleInit() {
-    this._client = EventStoreDBClient.connectionString`esdb+discover://localhost:2113?keepAliveTimeout=10000&keepAliveInterval=10000`;
+    this._client = this._config.connectionString
+      ? EventStoreDBClient.connectionString(this._config.connectionString)
+      : undefined;
   }
 }

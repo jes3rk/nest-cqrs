@@ -5,6 +5,7 @@ specifiers:
   '@faker-js/faker': ~7.6.0
   '@nestjs/cli': ~9.1.7
   '@nestjs/common': ~9.2.1
+  '@nestjs/config': ~2.2.0
   '@nestjs/core': ~9.2.1
   '@nestjs/platform-express': ~9.2.1
   '@nestjs/testing': ~9.2.1
@@ -13,10 +14,13 @@ specifiers:
   '@rush-temp/eventstoredb': file:./projects/eventstoredb.tgz
   '@rush-temp/monolith': file:./projects/monolith.tgz
   '@rush-temp/nest-messenger': file:./projects/nest-messenger.tgz
+  '@rush-temp/testing': file:./projects/testing.tgz
   '@swc/core': ~1.3.22
   '@swc/jest': ~0.2.24
   '@types/jest': ~29.2.4
+  '@types/supertest': ~2.0.12
   class-transformer: ~0.5.1
+  class-validator: ~0.14.0
   jest: ~29.3.1
   reflect-metadata: ~0.1.13
   rimraf: ~3.0.2
@@ -28,19 +32,23 @@ dependencies:
   '@eventstore/db-client': 5.0.0
   '@faker-js/faker': 7.6.0
   '@nestjs/cli': 9.1.7_@swc+core@1.3.24
-  '@nestjs/common': 9.2.1_0b5df05fbe98aa554b0f782986158cd6
+  '@nestjs/common': 9.2.1_eefe5e0f0d074901d1e2bb6a074375b0
+  '@nestjs/config': 2.2.0_b41868c8fca9448e93c9bf3acf0a2c92
   '@nestjs/core': 9.2.1_0245c15478188e6adf08e5dae427b3e2
   '@nestjs/platform-express': 9.2.1_3a4507b80408e3f30ddd3985ad1e6709
   '@nestjs/testing': 9.2.1_b0c352cae51db2bb0ca8c1f46c352be3
   '@rush-temp/class-transformer-storage': file:projects/class-transformer-storage.tgz
-  '@rush-temp/core': file:projects/core.tgz_@nestjs+platform-express@9.2.1
-  '@rush-temp/eventstoredb': file:projects/eventstoredb.tgz_@nestjs+platform-express@9.2.1
+  '@rush-temp/core': file:projects/core.tgz_2f969db8f071991c51eaf6986a3a89e8
+  '@rush-temp/eventstoredb': file:projects/eventstoredb.tgz_2f969db8f071991c51eaf6986a3a89e8
   '@rush-temp/monolith': file:projects/monolith.tgz
-  '@rush-temp/nest-messenger': file:projects/nest-messenger.tgz_@nestjs+platform-express@9.2.1
+  '@rush-temp/nest-messenger': file:projects/nest-messenger.tgz_2f969db8f071991c51eaf6986a3a89e8
+  '@rush-temp/testing': file:projects/testing.tgz_2f969db8f071991c51eaf6986a3a89e8
   '@swc/core': 1.3.24
   '@swc/jest': 0.2.24_@swc+core@1.3.24
   '@types/jest': 29.2.4
+  '@types/supertest': 2.0.12
   class-transformer: 0.5.1
+  class-validator: 0.14.0
   jest: 29.3.1
   reflect-metadata: 0.1.13
   rimraf: 3.0.2
@@ -805,7 +813,7 @@ packages:
       - webpack-cli
     dev: false
 
-  /@nestjs/common/9.2.1_0b5df05fbe98aa554b0f782986158cd6:
+  /@nestjs/common/9.2.1_eefe5e0f0d074901d1e2bb6a074375b0:
     resolution: {integrity: sha512-nZuo3oDsSSlC5mti/M2aCWTEIfHPGDXmBwWgPeCpRbrNz3IWd109rkajll+yxgidVjznAdBS9y00JkAVJblNYw==}
     peerDependencies:
       cache-manager: <=5
@@ -822,11 +830,28 @@ packages:
         optional: true
     dependencies:
       class-transformer: 0.5.1
+      class-validator: 0.14.0
       iterare: 1.2.1
       reflect-metadata: 0.1.13
       rxjs: 7.6.0
       tslib: 2.4.1
       uuid: 9.0.0
+    dev: false
+
+  /@nestjs/config/2.2.0_b41868c8fca9448e93c9bf3acf0a2c92:
+    resolution: {integrity: sha512-78Eg6oMbCy3D/YvqeiGBTOWei1Jwi3f2pSIZcZ1QxY67kYsJzTRTkwRT8Iv30DbK0sGKc1mcloDLD5UXgZAZtg==}
+    peerDependencies:
+      '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0
+      reflect-metadata: ^0.1.13
+      rxjs: ^6.0.0 || ^7.2.0
+    dependencies:
+      '@nestjs/common': 9.2.1_eefe5e0f0d074901d1e2bb6a074375b0
+      dotenv: 16.0.1
+      dotenv-expand: 8.0.3
+      lodash: 4.17.21
+      reflect-metadata: 0.1.13
+      rxjs: 7.6.0
+      uuid: 8.3.2
     dev: false
 
   /@nestjs/core/9.2.1_0245c15478188e6adf08e5dae427b3e2:
@@ -847,7 +872,7 @@ packages:
       '@nestjs/websockets':
         optional: true
     dependencies:
-      '@nestjs/common': 9.2.1_0b5df05fbe98aa554b0f782986158cd6
+      '@nestjs/common': 9.2.1_eefe5e0f0d074901d1e2bb6a074375b0
       '@nestjs/platform-express': 9.2.1_3a4507b80408e3f30ddd3985ad1e6709
       '@nuxtjs/opencollective': 0.3.2
       fast-safe-stringify: 2.1.1
@@ -868,7 +893,7 @@ packages:
       '@nestjs/common': ^9.0.0
       '@nestjs/core': ^9.0.0
     dependencies:
-      '@nestjs/common': 9.2.1_0b5df05fbe98aa554b0f782986158cd6
+      '@nestjs/common': 9.2.1_eefe5e0f0d074901d1e2bb6a074375b0
       '@nestjs/core': 9.2.1_0245c15478188e6adf08e5dae427b3e2
       body-parser: 1.20.1
       cors: 2.8.5
@@ -905,7 +930,7 @@ packages:
       '@nestjs/platform-express':
         optional: true
     dependencies:
-      '@nestjs/common': 9.2.1_0b5df05fbe98aa554b0f782986158cd6
+      '@nestjs/common': 9.2.1_eefe5e0f0d074901d1e2bb6a074375b0
       '@nestjs/core': 9.2.1_0245c15478188e6adf08e5dae427b3e2
       '@nestjs/platform-express': 9.2.1_3a4507b80408e3f30ddd3985ad1e6709
       tslib: 2.4.1
@@ -1224,6 +1249,10 @@ packages:
     resolution: {integrity: sha512-X3HPWTwXRerBZS7Mo1k6vMVR1Z6zmJcDVn5O/31whe0tnjE4te6ZJSJGq1RiqHPjzPdMTfjCFogDJmwng9xHaQ==}
     dependencies:
       '@types/superagent': 4.1.16
+    dev: false
+
+  /@types/validator/13.7.10:
+    resolution: {integrity: sha512-t1yxFAR2n0+VO6hd/FJ9F2uezAZVWHLmpmlJzm1eX03+H7+HsuTAp7L8QJs+2pQCfWkP1+EXsGK9Z9v7o/qPVQ==}
     dev: false
 
   /@types/yargs-parser/21.0.0:
@@ -1737,6 +1766,14 @@ packages:
     resolution: {integrity: sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==}
     dev: false
 
+  /class-validator/0.14.0:
+    resolution: {integrity: sha512-ct3ltplN8I9fOwUd8GrP8UQixwff129BkEtuWDKL5W45cQuLd19xqmTLu5ge78YDm/fdje6FMt0hGOhl0lii3A==}
+    dependencies:
+      '@types/validator': 13.7.10
+      libphonenumber-js: 1.10.15
+      validator: 13.7.0
+    dev: false
+
   /cli-cursor/3.1.0:
     resolution: {integrity: sha512-I/zHAwsKf9FqGoXM4WWRACob9+SNukZTd94DWF57E4toouRulbCxcUh6RKUEOQlYTHJnzkPMySvPNaaSLNfLZw==}
     engines: {node: '>=8'}
@@ -1981,6 +2018,16 @@ packages:
   /diff-sequences/29.3.1:
     resolution: {integrity: sha512-hlM3QR272NXCi4pq+N4Kok4kOp6EsgOM3ZSpJI7Da3UAs+Ttsi8MRmB6trM/lhyzUxGfOgnpkHtgqm5Q/CTcfQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dev: false
+
+  /dotenv-expand/8.0.3:
+    resolution: {integrity: sha512-SErOMvge0ZUyWd5B0NXMQlDkN+8r+HhVUsxgOO7IoPDOdDRD2JjExpN6y3KnFR66jsJMwSn1pqIivhU5rcJiNg==}
+    engines: {node: '>=12'}
+    dev: false
+
+  /dotenv/16.0.1:
+    resolution: {integrity: sha512-1K6hR6wtk2FviQ4kEiSjFiH5rpzEVi8WW0x96aztHVMhEspNpc4DVOUTEHtEva5VThQ8IaBX1Pe4gSzpVVUsKQ==}
+    engines: {node: '>=12'}
     dev: false
 
   /ee-first/1.1.1:
@@ -3174,6 +3221,10 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
+  /libphonenumber-js/1.10.15:
+    resolution: {integrity: sha512-sLeVLmWX17VCKKulc+aDIRHS95TxoTsKMRJi5s5gJdwlqNzMWcBCtSHHruVyXjqfi67daXM2SnLf2juSrdx5Sg==}
+    dev: false
+
   /lines-and-columns/1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: false
@@ -4263,6 +4314,11 @@ packages:
       convert-source-map: 1.9.0
     dev: false
 
+  /validator/13.7.0:
+    resolution: {integrity: sha512-nYXQLCBkpJ8X6ltALua9dRrZDHVYxjJ1wgskNt1lH9fzGjs3tgojGSCBjmEPwkWS1y29+DrizMTW19Pr9uB2nw==}
+    engines: {node: '>= 0.10'}
+    dev: false
+
   /vary/1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
@@ -4466,14 +4522,15 @@ packages:
       - ts-node
     dev: false
 
-  file:projects/core.tgz_@nestjs+platform-express@9.2.1:
-    resolution: {integrity: sha512-0j29W/41z9yzY2bevKVBKQAgVmN8OOo7qyj4/lBn5MSsDjHTObJCoRN3/QCpy0puLrOvp0Rotgz7EgTGEnVC+g==, tarball: file:projects/core.tgz}
+  file:projects/core.tgz_2f969db8f071991c51eaf6986a3a89e8:
+    resolution: {integrity: sha512-zB9YuY7K1LaR3eCYTOEMwoRoWxnlUwKxC0Zapp7uOEt1xEiciNaZJsHHs13y/Z/jec3MpzizFJ2wcfrWSP3JeA==, tarball: file:projects/core.tgz}
     id: file:projects/core.tgz
     name: '@rush-temp/core'
     version: 0.0.0
     dependencies:
       '@faker-js/faker': 7.6.0
-      '@nestjs/common': 9.2.1_0b5df05fbe98aa554b0f782986158cd6
+      '@nestjs/common': 9.2.1_eefe5e0f0d074901d1e2bb6a074375b0
+      '@nestjs/config': 2.2.0_b41868c8fca9448e93c9bf3acf0a2c92
       '@nestjs/core': 9.2.1_0245c15478188e6adf08e5dae427b3e2
       '@nestjs/testing': 9.2.1_b0c352cae51db2bb0ca8c1f46c352be3
       '@swc/core': 1.3.24
@@ -4498,7 +4555,7 @@ packages:
       - ts-node
     dev: false
 
-  file:projects/eventstoredb.tgz_@nestjs+platform-express@9.2.1:
+  file:projects/eventstoredb.tgz_2f969db8f071991c51eaf6986a3a89e8:
     resolution: {integrity: sha512-6FRS+P67uzcveoT3GFk0c68lPd0CamqkhaeAaRTg6coEdU5X6LMIwWhZA7FK0d1++nbfEzIBEBjqnk0eChHMPA==, tarball: file:projects/eventstoredb.tgz}
     id: file:projects/eventstoredb.tgz
     name: '@rush-temp/eventstoredb'
@@ -4506,7 +4563,7 @@ packages:
     dependencies:
       '@eventstore/db-client': 5.0.0
       '@faker-js/faker': 7.6.0
-      '@nestjs/common': 9.2.1_0b5df05fbe98aa554b0f782986158cd6
+      '@nestjs/common': 9.2.1_eefe5e0f0d074901d1e2bb6a074375b0
       '@nestjs/core': 9.2.1_0245c15478188e6adf08e5dae427b3e2
       '@nestjs/testing': 9.2.1_b0c352cae51db2bb0ca8c1f46c352be3
       '@swc/core': 1.3.24
@@ -4532,13 +4589,13 @@ packages:
     dev: false
 
   file:projects/monolith.tgz:
-    resolution: {integrity: sha512-6Uk3NfZ9xfIRi9zE+JY8cGwbiH1gA92HQ2rRh5I9habhM88MFdu7lByqUcOFOurtHLNjxUqpcDjF48seiOQoRQ==, tarball: file:projects/monolith.tgz}
+    resolution: {integrity: sha512-QGyikK1usYSjFfuQcQAimV5KTh3ftgkm8W0hrKnEuF2z6V35PlfA6EZq8ftRzT/1XsSLCqQ52RjboGG4QlGfZw==, tarball: file:projects/monolith.tgz}
     name: '@rush-temp/monolith'
     version: 0.0.0
     dependencies:
       '@faker-js/faker': 7.6.0
       '@nestjs/cli': 9.1.7_@swc+core@1.3.24
-      '@nestjs/common': 9.2.1_0b5df05fbe98aa554b0f782986158cd6
+      '@nestjs/common': 9.2.1_eefe5e0f0d074901d1e2bb6a074375b0
       '@nestjs/core': 9.2.1_0245c15478188e6adf08e5dae427b3e2
       '@nestjs/platform-express': 9.2.1_3a4507b80408e3f30ddd3985ad1e6709
       '@nestjs/testing': 9.2.1_b0c352cae51db2bb0ca8c1f46c352be3
@@ -4547,6 +4604,7 @@ packages:
       '@types/jest': 29.2.4
       '@types/supertest': 2.0.12
       class-transformer: 0.5.1
+      class-validator: 0.14.0
       jest: 29.3.1
       reflect-metadata: 0.1.13
       rimraf: 3.0.2
@@ -4558,7 +4616,6 @@ packages:
       - '@nestjs/websockets'
       - '@types/node'
       - cache-manager
-      - class-validator
       - encoding
       - esbuild
       - node-notifier
@@ -4569,14 +4626,46 @@ packages:
       - webpack-cli
     dev: false
 
-  file:projects/nest-messenger.tgz_@nestjs+platform-express@9.2.1:
+  file:projects/nest-messenger.tgz_2f969db8f071991c51eaf6986a3a89e8:
     resolution: {integrity: sha512-1lGYix0gWqN6kclzPIGFelglhQC1+zhNZ6lVLL+R/Cnwv417Fe1uNM1sqyLoSDjYtkNRHykAUt/F1bf4jvzlMg==, tarball: file:projects/nest-messenger.tgz}
     id: file:projects/nest-messenger.tgz
     name: '@rush-temp/nest-messenger'
     version: 0.0.0
     dependencies:
       '@faker-js/faker': 7.6.0
-      '@nestjs/common': 9.2.1_0b5df05fbe98aa554b0f782986158cd6
+      '@nestjs/common': 9.2.1_eefe5e0f0d074901d1e2bb6a074375b0
+      '@nestjs/core': 9.2.1_0245c15478188e6adf08e5dae427b3e2
+      '@nestjs/testing': 9.2.1_b0c352cae51db2bb0ca8c1f46c352be3
+      '@swc/core': 1.3.24
+      '@swc/jest': 0.2.24_@swc+core@1.3.24
+      '@types/jest': 29.2.4
+      class-transformer: 0.5.1
+      jest: 29.3.1
+      reflect-metadata: 0.1.13
+      rimraf: 3.0.2
+      rxjs: 7.6.0
+      typescript: 4.9.4
+    transitivePeerDependencies:
+      - '@nestjs/microservices'
+      - '@nestjs/platform-express'
+      - '@nestjs/websockets'
+      - '@types/node'
+      - cache-manager
+      - class-validator
+      - encoding
+      - node-notifier
+      - supports-color
+      - ts-node
+    dev: false
+
+  file:projects/testing.tgz_2f969db8f071991c51eaf6986a3a89e8:
+    resolution: {integrity: sha512-0dF/3YYxXxyz1rwq5+8EqJKZiaExE0n/WcBSZ88cPxx+f0IWdEjL03yTQhY3B38nywvlJx1DUG5DIddK7imkMw==, tarball: file:projects/testing.tgz}
+    id: file:projects/testing.tgz
+    name: '@rush-temp/testing'
+    version: 0.0.0
+    dependencies:
+      '@faker-js/faker': 7.6.0
+      '@nestjs/common': 9.2.1_eefe5e0f0d074901d1e2bb6a074375b0
       '@nestjs/core': 9.2.1_0245c15478188e6adf08e5dae427b3e2
       '@nestjs/testing': 9.2.1_b0c352cae51db2bb0ca8c1f46c352be3
       '@swc/core': 1.3.24

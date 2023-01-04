@@ -333,6 +333,11 @@
       "shouldPublish": true
     },
     {
+      "packageName": "@nest-cqrs/testing",
+      "projectFolder": "packages/testing",
+      "shouldPublish": true
+    },
+    {
       "packageName": "nest-messenger",
       "projectFolder": "packages/messenger",
       "shouldPublish": true
