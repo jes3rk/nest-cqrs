@@ -1,4 +1,7 @@
 import { Module } from "@nestjs/common";
+import { AccountingWriteService } from "./accounting.write.service";
 
-@Module({})
+@Module({
+  providers: [AccountingWriteService],
+})
 export class AccountingModule {}

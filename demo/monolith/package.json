@@ -12,7 +12,8 @@
     "@nestjs/testing": "~9.2.1",
     "@nestjs/cli": "~9.1.7",
     "supertest": "~6.3.3",
-    "@types/supertest": "~2.0.12"
+    "@types/supertest": "~2.0.12",
+    "@nest-cqrs/testing": "*"
   },
   "scripts": {
     "build": "npm run prebuild && nest build",
@@ -29,6 +30,9 @@
     "reflect-metadata": "~0.1.13",
     "nest-messenger": "*",
     "@nestjs/platform-express": "~9.2.1",
-    "@nest-cqrs/core": "*"
+    "@nest-cqrs/core": "*",
+    "@nest-cqrs/eventstoredb": "*",
+    "class-validator": "~0.14.0",
+    "class-transformer-storage": "*"
   }
 }
