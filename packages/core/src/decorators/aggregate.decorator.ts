@@ -2,6 +2,7 @@ import { ClassConstructor } from "class-transformer";
 import { AggregateRoot } from "../classes/aggregate.root";
 import { AGGREGATE_METADATA } from "../cqrs.constants";
 import { applyMixins } from "../cqrs.utilites";
+import { AggregateConstructor } from "../interfaces/aggregate-contructor.interface";
 import { AggregateMetadata } from "../interfaces/aggregate-metadata.interface";
 
 /**
@@ -12,7 +13,7 @@ import { AggregateMetadata } from "../interfaces/aggregate-metadata.interface";
  * @param metadata
  */
 export const Aggregate = (metadata: AggregateMetadata = {}) => {
-  return (target: ClassConstructor<any>) => {
+  return (target: AggregateConstructor<any>) => {
     Reflect.defineMetadata(AGGREGATE_METADATA, metadata, target);
     if (!(target.prototype instanceof AggregateRoot)) {
       applyMixins(target, [AggregateRoot]);

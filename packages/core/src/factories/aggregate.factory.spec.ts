@@ -21,7 +21,7 @@ describe("AggregateFactory", () => {
       this.EVENTS = [];
     }
 
-    public readAsynchronously(
+    public readStreamAsynchronously(
       _: string,
       callback: (event: IEvent) => void,
     ): Promise<void> {
@@ -50,7 +50,9 @@ describe("AggregateFactory", () => {
   });
 
   describe("loadAggregateFromStream", () => {
-    class TestEvent extends Event implements IEvent {}
+    class TestEvent extends Event implements IEvent {
+      public $payload: Record<string, unknown> = {};
+    }
     class DummyAggregate extends AggregateRoot {
       @Apply(TestEvent)
       handleTestEvent = jest.fn();
@@ -78,6 +80,8 @@ describe("AggregateFactory", () => {
       @Aggregate()
       class MixinAggregate {
         public $updatedAt: Date;
+
+        constructor(public readonly id: string) {}
 
         @Apply(TestEvent)
         handleTestEvent = jest.fn();

@@ -20,7 +20,9 @@ describe("RequestEngine", () => {
   let filter: ExceptionFilter;
   let publisher: IPublisher;
 
-  class TestMessage extends Message implements IMessage {}
+  class TestMessage extends Message implements IMessage {
+    public $payload: Record<string, unknown> = {};
+  }
 
   @PrePublishMiddleware()
   class TestPreMiddleware implements IPrePublishMiddleware {
@@ -80,6 +82,7 @@ describe("RequestEngine", () => {
         {
           $metadata: {},
           $name: "TestMessage",
+          $payload: {},
           $uuid: faker.datatype.uuid(),
         },
         MessageType.EVENT,

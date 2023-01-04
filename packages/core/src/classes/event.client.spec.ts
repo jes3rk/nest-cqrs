@@ -31,7 +31,9 @@ describe("EventClient", () => {
   });
 
   describe("emit", () => {
-    class TestEvent extends Event implements IEvent {}
+    class TestEvent extends Event implements IEvent {
+      public $payload: Record<string, unknown> = {};
+    }
     let event: TestEvent;
 
     beforeEach(() => {

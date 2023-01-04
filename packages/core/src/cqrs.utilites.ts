@@ -6,14 +6,16 @@ import { AGGREGATE_METADATA } from "./cqrs.constants";
  */
 export function applyMixins(derivedCtor: any, constructors: any[]) {
   constructors.forEach((baseCtor) => {
-    Object.getOwnPropertyNames(baseCtor.prototype).forEach((name) => {
-      Object.defineProperty(
-        derivedCtor.prototype,
-        name,
-        Object.getOwnPropertyDescriptor(baseCtor.prototype, name) ||
-          Object.create(null),
-      );
-    });
+    Object.getOwnPropertyNames(baseCtor.prototype)
+      .filter((name) => name !== "constructor")
+      .forEach((name) => {
+        Object.defineProperty(
+          derivedCtor.prototype,
+          name,
+          Object.getOwnPropertyDescriptor(baseCtor.prototype, name) ||
+            Object.create(null),
+        );
+      });
   });
 }
 /**

@@ -36,6 +36,7 @@ describe("MessagePublisher", () => {
         {
           $metadata: {},
           $name: "TestEvent",
+          $payload: {},
           $uuid: faker.datatype.uuid(),
         },
         MessageType.EVENT,

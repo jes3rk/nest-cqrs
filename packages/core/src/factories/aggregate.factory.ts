@@ -4,21 +4,25 @@ import { IEventReader } from "../interfaces/event-reader.interface";
 import { ClassConstructor } from "class-transformer";
 import { generateStreamID } from "../cqrs.utilites";
 import { AggregateRoot } from "../classes/aggregate.root";
+import {
+  AggregateConstructor,
+  IAggregateRoot,
+} from "../interfaces/aggregate-contructor.interface";
 
 @Injectable()
 export class AggregateFactory {
-  constructor(@Inject(EVENT_READER) private readonly reader: IEventReader) {}
+  constructor(@Inject(EVENT_READER) protected readonly reader: IEventReader) {}
 
-  public async loadAggregateFromStream<T>(
+  public async loadAggregateFromStream<T extends IAggregateRoot>(
     aggregateId: string,
-    aggregate: ClassConstructor<T>,
+    aggregate: AggregateConstructor<T>,
   ): Promise<T> {
     const streamID = generateStreamID(aggregateId, aggregate);
-    const _agg = new aggregate();
+    const _agg = new aggregate(aggregateId);
     if (_agg["apply"] === undefined) throw new Error();
-    await this.reader.readAsynchronously(
+    await this.reader.readStreamAsynchronously(
       streamID,
-      (_agg as AggregateRoot).apply.bind(_agg),
+      (_agg as unknown as AggregateRoot).apply.bind(_agg),
     );
     return _agg;
   }

@@ -5,6 +5,8 @@ export abstract class AggregateRoot {
   private _applyMap: Map<IEvent["$name"], keyof this>;
   public $updatedAt: Date;
 
+  constructor(public readonly id: string) {}
+
   public apply(event: IEvent): void {
     if (!this._applyMap) {
       this._applyMap = Reflect.getMetadata(APPLY_METADATA, this);

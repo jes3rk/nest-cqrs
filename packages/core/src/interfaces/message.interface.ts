@@ -4,5 +4,6 @@ export interface IMessageMetadata {}
 export interface IMessage {
   $metadata: IMessageMetadata;
   $name: string;
+  $payload: unknown;
   $uuid: string;
 }

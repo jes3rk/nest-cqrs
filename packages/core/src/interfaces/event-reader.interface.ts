@@ -8,7 +8,7 @@ export interface IEventReader {
    * @param streamId
    * @param callback
    */
-  readAsynchronously(
+  readStreamAsynchronously(
     streamId: string,
     callback: (event: IEvent) => void,
   ): Promise<void>;

@@ -17,4 +17,10 @@ export class EventClient {
     const message = MessageRequest.generateRequest(event, MessageType.EVENT);
     return this.engine.handleMessageRequest(message);
   }
+
+  public async emitMany(events: IEvent[]): Promise<void> {
+    for await (const event of events) {
+      await this.emit(event);
+    }
+  }
 }

@@ -13,6 +13,7 @@ describe("MessageRequest", () => {
       message = {
         $metadata: {},
         $name: "TestMessage",
+        $payload: {},
         $uuid: faker.datatype.uuid(),
       };
     });
@@ -35,6 +36,7 @@ describe("MessageRequest", () => {
         {
           $metadata: {},
           $name: "TestMessage",
+          $payload: {},
           $uuid: faker.datatype.uuid(),
         },
         MessageType.EVENT,
@@ -73,6 +75,7 @@ describe("MessageRequest", () => {
         {
           $metadata: {},
           $name: "TestMessage",
+          $payload: {},
           $uuid: faker.datatype.uuid(),
         },
         MessageType.EVENT,
