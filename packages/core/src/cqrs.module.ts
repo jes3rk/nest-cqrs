@@ -5,9 +5,12 @@ import { RequestEngine } from "./engine/request.engine";
 import { PluginConfiguration } from "./interfaces/plugin-config.interface";
 import { MessagePublisher } from "./publishers/message.publisher";
 import { ConfigModule } from "@nestjs/config";
-import { DiscoveryModule } from "@nestjs/core";
+import { APP_INTERCEPTOR, DiscoveryModule } from "@nestjs/core";
 import { EventBuilderFactory } from "./factories/event-builder.factory";
 import { AggregateFactory } from "./factories/aggregate.factory";
+import { CQRSModuleConfig } from "./interfaces/module.config";
+import { ClsModule } from "nestjs-cls";
+import { MetadataInterceptor } from "./classes/metadata.interceptor";
 
 @Module({
   imports: [DiscoveryModule, MessengerModule],
@@ -17,6 +20,10 @@ import { AggregateFactory } from "./factories/aggregate.factory";
     EventBuilderFactory,
     MessagePublisher,
     RequestEngine,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: MetadataInterceptor,
+    },
   ],
   exports: [AggregateFactory, EventClient, EventBuilderFactory],
 })
@@ -25,13 +32,18 @@ export class CQRSModule {
    * Configure the module at the root level. Will automatically import
    * the config module and other required modules.
    */
-  public static forRoot(config: {
-    eventStoreConfig: PluginConfiguration;
-  }): DynamicModule {
+  public static forRoot(config: CQRSModuleConfig): DynamicModule {
+    const { includeCLS = true, eventStoreConfig } = config;
     return {
-      imports: [ConfigModule],
-      providers: [...config.eventStoreConfig.providers],
-      exports: [...config.eventStoreConfig.exports],
+      imports: [
+        ConfigModule,
+        includeCLS &&
+          ClsModule.forRoot({
+            middleware: { mount: true },
+          }),
+      ],
+      providers: [...eventStoreConfig.providers],
+      exports: [...eventStoreConfig.exports],
       module: CQRSModule,
       global: true,
     };

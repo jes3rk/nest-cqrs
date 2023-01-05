@@ -5,11 +5,16 @@ import {
   IAggregateRoot,
 } from "../interfaces/aggregate-contructor.interface";
 import { EventBuilder } from "../classes/event.builder";
+import { ClsService } from "nestjs-cls";
+import { REQUEST_METADATA } from "../cqrs.constants";
+import { randomUUID } from "crypto";
 
 type ConstructedEventBuilder = Pick<EventBuilder, "addEventType" | "build">;
 
 @Injectable()
 export class EventBuilderFactory {
+  constructor(private readonly cls: ClsService) {}
+
   public generateEventBuilder(
     aggregate: IAggregateRoot,
     correlationId?: string,
@@ -21,6 +26,9 @@ export class EventBuilderFactory {
           aggregate.constructor as AggregateConstructor<any>,
         ),
       )
-      .setCorrelationId(correlationId);
+      .setMetadata({
+        $correlationId: correlationId || randomUUID(),
+        ...(this.cls.get(REQUEST_METADATA) || {}),
+      });
   }
 }

@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { Test } from "@nestjs/testing";
+import { ClsService } from "nestjs-cls";
 import { Event } from "../classes/_base.event";
 import { Aggregate } from "../decorators/aggregate.decorator";
 import { IEvent } from "../interfaces/event.interface";
@@ -10,7 +11,15 @@ describe("EventFactory", () => {
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [EventBuilderFactory],
+      providers: [
+        EventBuilderFactory,
+        {
+          provide: ClsService,
+          useValue: {
+            get: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     factory = module.get(EventBuilderFactory);

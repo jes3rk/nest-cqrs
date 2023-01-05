@@ -1,6 +1,7 @@
+import { RequestMetadata } from "./request.metadata";
 import { IMessage, IMessageMetadata } from "./message.interface";
 
-export interface IEventMetadata extends IMessageMetadata {
+export interface IEventMetadata extends IMessageMetadata, RequestMetadata {
   $correlationId: string;
 }
 

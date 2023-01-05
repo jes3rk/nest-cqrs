@@ -35,6 +35,7 @@ describe("Account", () => {
     it("will create a new account", () => {
       return request(server)
         .post("/account")
+        .set("x-cqrs-client-id", "12345")
         .expect(201)
         .expect(({ body }) => {
           expect(body).toHaveProperty("rootId");
