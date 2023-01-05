@@ -21,17 +21,13 @@ jobs:
       pull-requests: read
     outputs:
       ct: ${{ steps.filter.output.ct }}
-      core: ${{ steps.filter.outputs.core }}
-      eventstoredb: ${{ steps.filter.outputs.eventstoredb }}
-      packages: ${{ steps.filter.output.changes }}
+      messenger: ${{ steps.filter.output.messenger }}
     steps:
     - uses: dorny/paths-filter@v2
       id: filter
       with:
         filters: |
           ct: packages/ct/**
-          core: packages/core/**
-          eventstoredb: packages/eventstoredb/**
           messenger: packages/messenger/**
   test-utils:
     needs: assert-changes
@@ -59,39 +55,13 @@ jobs:
         run: | 
           node common/scripts/install-run-rush.js build -T nest-messenger && \
           npm run test --prefix packages/messenger
-  test-core:
-    needs: assert-changes
-    runs-on: ubuntu-latest
-    if: ${{ needs.assert-changes.outputs.core == true }}
-    strategy:
-      matrix:
-        node-version: [16.x]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Node
-        uses: actions/setup-node@v3.1.1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Rush Install
-        run: node common/scripts/install-run-rush.js install
-      - name: Build
-        run: | 
-          node common/scripts/install-run-rush.js build -T @nest-cqrs/core
-      - name: Test
-        run: | 
-          npm run test --prefix packages/messenger
-  test-core-dependents:
-    needs: assert-changes
+  test-nest-cqrs:
+    needs: check-dependencies
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [16.x]
-        package: ${{ fromJSON(needs.assert-changes.outputs.packages) }}
-        exclude:
-        - package: ct
-        - package: core
-        - package: messenger
+        package: [core, eventstoredb]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
