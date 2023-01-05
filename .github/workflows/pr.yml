@@ -1,0 +1,79 @@
+name: PR - Main
+
+on:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  check-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3.1.1
+      - name: Assert dependency versions
+        run: node common/scripts/install-run-rush.js check
+  assert-changes:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      ct: ${{ steps.filter.output.ct }}
+      messenger: ${{ steps.filter.output.messenger }}
+    steps:
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          ct: packages/ct/**
+          messenger: packages/messenger/**
+  test-utils:
+    needs: assert-changes
+    runs-on: ubuntu-latest
+    if: ${{ needs.assert-changes.outputs.ct == true }} || ${{ needs.assert-changes.outputs.messenger == true }}
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3.1.1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Rush Install
+        run: node common/scripts/install-run-rush.js install
+      - name: Build and Test packages/class-transformer-storage
+        if: ${{ needs.assert-changes.outputs.ct == true }}
+        run: | 
+          node common/scripts/install-run-rush.js build -T class-transformer-storage && \
+          npm run test --prefix packages/class-transformer-storage
+      - name: Build and Test packages/messenger
+        if: ${{ needs.assert-changes.outputs.messenger == true }}
+        run: | 
+          node common/scripts/install-run-rush.js build -T nest-messenger && \
+          npm run test --prefix packages/messenger
+  test-nest-cqrs:
+    needs: check-dependencies
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+        package: [core, eventstoredb]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3.1.1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Rush Install
+        run: node common/scripts/install-run-rush.js install
+      - name: Build
+        run: | 
+          node common/scripts/install-run-rush.js build -T @nest-cqrs/${{ matrix.package }}
+      - name: Test
+        run: | 
+          npm run test --prefix packages/${{ matrix.package }}
