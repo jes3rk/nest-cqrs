@@ -1,0 +1,5 @@
+src
+*.log
+tsconfig.*
+node_modules
+.rush
