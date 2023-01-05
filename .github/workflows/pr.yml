@@ -87,7 +87,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        package: ${{ fromJSON(needs.changes.outputs.packages) }}
+        package: ${{ fromJSON(needs.assert-changes.outputs.packages) }}
         exclude:
         - package: ct
         - package: core
