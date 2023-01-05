@@ -29,10 +29,10 @@ jobs:
       id: filter
       with:
         filters: |
-          ct: packages/ct
-          core: packages/core
-          eventstoredb: packages/eventstoredb
-          messenger: packages/messenger
+          ct: packages/ct/**
+          core: packages/core/**
+          eventstoredb: packages/eventstoredb/**
+          messenger: packages/messenger/**
   test-utils:
     needs: assert-changes
     runs-on: ubuntu-latest
