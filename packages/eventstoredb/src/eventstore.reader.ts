@@ -21,7 +21,10 @@ export class EventstoreReader implements IEventReader {
 
     try {
       for await (const raw of stream) {
-        const event = parser.readFromJsonEvent(raw as JSONEvent);
+        if (!raw.event) throw Error();
+        const event = parser.readFromJsonEvent(
+          raw.event as unknown as JSONEvent,
+        );
         event.$streamId = streamId;
         callback(event);
       }
