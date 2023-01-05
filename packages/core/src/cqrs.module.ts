@@ -11,6 +11,7 @@ import { AggregateFactory } from "./factories/aggregate.factory";
 import { CQRSModuleConfig } from "./interfaces/module.config";
 import { ClsModule } from "nestjs-cls";
 import { MetadataInterceptor } from "./classes/metadata.interceptor";
+import { RequestMetadataMiddleware } from "./middleware/request-metadata.middleware";
 
 @Module({
   imports: [DiscoveryModule, MessengerModule],
@@ -20,6 +21,7 @@ import { MetadataInterceptor } from "./classes/metadata.interceptor";
     EventBuilderFactory,
     MessagePublisher,
     RequestEngine,
+    RequestMetadataMiddleware,
     {
       provide: APP_INTERCEPTOR,
       useClass: MetadataInterceptor,

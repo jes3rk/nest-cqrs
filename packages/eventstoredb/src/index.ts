@@ -8,12 +8,7 @@ import { EventStoreClient } from "./eventstore.client";
 import { EventStorePublisher } from "./eventstore.publisher";
 import { EVENT_STORE_CONFIG } from "./eventstore.constants";
 import { EventstoreDBConfig } from "./interfaces/eventstore.config";
-import {
-  ClassProvider,
-  FactoryProvider,
-  Provider,
-  ValueProvider,
-} from "@nestjs/common";
+import { Provider } from "@nestjs/common";
 import { EventstoreReader } from "./eventstore.reader";
 
 export function configureEventStoreDB(config: {

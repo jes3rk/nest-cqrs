@@ -1,5 +1,9 @@
 import { Test } from "@nestjs/testing";
-import { AggregateFactory, EventClient, EventFactory } from "@nest-cqrs/core";
+import {
+  AggregateFactory,
+  EventClient,
+  EventBuilderFactory,
+} from "@nest-cqrs/core";
 import { AccountingWriteService } from "./accounting.write.service";
 import { CreateAccountInput } from "./dto/create-account.input";
 import { faker } from "@faker-js/faker";
@@ -14,7 +18,7 @@ describe("AccountingWriteService", () => {
     const module = await Test.createTestingModule({
       providers: [
         AccountingWriteService,
-        EventFactory,
+        EventBuilderFactory,
         { provide: AggregateFactory, useValue: new AggregateFactoryMock() },
         { provide: EventClient, useValue: new EventClientMock() },
       ],
