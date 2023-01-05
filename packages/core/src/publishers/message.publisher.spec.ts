@@ -34,7 +34,9 @@ describe("MessagePublisher", () => {
     it("will publish an event to the correct publisher", async () => {
       const message = MessageRequest.generateRequest(
         {
-          $metadata: {},
+          $metadata: {
+            $timestamp: new Date(),
+          },
           $name: "TestEvent",
           $payload: {},
           $uuid: faker.datatype.uuid(),

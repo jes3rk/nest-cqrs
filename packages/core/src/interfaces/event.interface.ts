@@ -1,7 +1,10 @@
-import { IMessage } from "./message.interface";
+import { IMessage, IMessageMetadata } from "./message.interface";
+
+export interface IEventMetadata extends IMessageMetadata {
+  $correlationId: string;
+}
 
 export interface IEvent extends IMessage {
-  $correlationId: string;
-  $streamID: string;
-  $timestamp: Date;
+  $metadata: IEventMetadata;
+  $streamId: string;
 }

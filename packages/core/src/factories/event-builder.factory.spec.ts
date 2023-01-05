@@ -1,20 +1,19 @@
 import { faker } from "@faker-js/faker";
 import { Test } from "@nestjs/testing";
-import { AggregateRoot } from "../classes/aggregate.root";
 import { Event } from "../classes/_base.event";
 import { Aggregate } from "../decorators/aggregate.decorator";
 import { IEvent } from "../interfaces/event.interface";
-import { EventFactory } from "./event.factory";
+import { EventBuilderFactory } from "./event-builder.factory";
 
 describe("EventFactory", () => {
-  let factory: EventFactory;
+  let factory: EventBuilderFactory;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [EventFactory],
+      providers: [EventBuilderFactory],
     }).compile();
 
-    factory = module.get(EventFactory);
+    factory = module.get(EventBuilderFactory);
   });
 
   it("will be defined", () => {
@@ -38,6 +37,6 @@ describe("EventFactory", () => {
       .build()[0];
 
     expect(evt).toBeInstanceOf(TestEvent);
-    expect(evt.$streamID).toEqual(`test.${agg.id}`);
+    expect(evt.$streamId).toEqual(`test.${agg.id}`);
   });
 });

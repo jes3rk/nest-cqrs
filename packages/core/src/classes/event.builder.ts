@@ -1,5 +1,6 @@
 import { ClassConstructor } from "class-transformer";
 import { IEvent } from "../interfaces/event.interface";
+import { EventMetadata } from "./_base.event";
 
 export class EventBuilder {
   private correlationId: string;
@@ -38,9 +39,9 @@ export class EventBuilder {
   public build(): IEvent[] {
     return this.eventConstructors.map((c) => {
       const evt = new c.constructor();
-      evt.$correlationId = this.correlationId;
+      evt.$metadata.$correlationId = this.correlationId;
       evt.$payload = c.payload;
-      evt.$streamID = this.streamId;
+      evt.$streamId = this.streamId;
       return evt;
     });
   }

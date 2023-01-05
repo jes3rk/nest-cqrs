@@ -80,7 +80,9 @@ describe("RequestEngine", () => {
     beforeEach(() => {
       message = new MessageRequest(
         {
-          $metadata: {},
+          $metadata: {
+            $timestamp: new Date(),
+          },
           $name: "TestMessage",
           $payload: {},
           $uuid: faker.datatype.uuid(),

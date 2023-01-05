@@ -67,7 +67,7 @@ describe("AggregateFactory", () => {
       reader.EVENTS.forEach((e) => {
         expect(agg.handleTestEvent).toHaveBeenCalledWith(e);
       });
-      expect(agg.$updatedAt).toEqual(reader.EVENTS.at(-1).$timestamp);
+      expect(agg.$updatedAt).toEqual(reader.EVENTS.at(-1).$metadata.$timestamp);
     });
 
     it("will load a new aggregate", async () => {
@@ -95,7 +95,7 @@ describe("AggregateFactory", () => {
       reader.EVENTS.forEach((e) => {
         expect(agg.handleTestEvent).toHaveBeenCalledWith(e);
       });
-      expect(agg.$updatedAt).toEqual(reader.EVENTS.at(-1).$timestamp);
+      expect(agg.$updatedAt).toEqual(reader.EVENTS.at(-1).$metadata.$timestamp);
     });
   });
 });

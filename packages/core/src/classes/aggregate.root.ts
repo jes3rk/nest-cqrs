@@ -16,6 +16,6 @@ export abstract class AggregateRoot {
         this,
         event,
       );
-    this.$updatedAt = event.$timestamp;
+    this.$updatedAt = event.$metadata.$timestamp;
   }
 }

@@ -1,6 +1,6 @@
 import { jsonEvent, JSONEventType } from "@eventstore/db-client";
 import { instanceToPlain } from "class-transformer";
-import { IEvent } from "@nest-cqrs/core/";
+import { IEvent, IEventMetadata } from "@nest-cqrs/core/";
 import { JSONEvent } from "../types/json-event-type";
 import { ctPlainToInstance } from "class-transformer-storage";
 
@@ -14,13 +14,8 @@ export class EventParser {
    * Take an event and format it according to the eventstoredb spec
    */
   public parseToJsonEvent(message: IEvent): JSONEvent {
-    const {
-      $metadata,
-      $name,
-      $uuid,
-      $streamID: _,
-      ...rest
-    } = instanceToPlain<IEvent>(message);
+    const { $metadata, $name, $uuid, ...rest } =
+      instanceToPlain<IEvent>(message);
     return jsonEvent<JSONEventType<IEvent["$name"], Record<string, unknown>>>({
       data: rest,
       id: $uuid,
@@ -38,7 +33,7 @@ export class EventParser {
   public readFromJsonEvent(event: JSONEvent): IEvent {
     const { data, id, metadata, type } = event;
     const plain: Partial<IEvent> = {
-      $metadata: metadata,
+      $metadata: metadata as unknown as IEventMetadata,
       $name: type,
       $uuid: id,
       ...data,

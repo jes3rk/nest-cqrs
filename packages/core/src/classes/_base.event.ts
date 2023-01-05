@@ -1,6 +1,18 @@
-import { Message } from "./_base.message";
+import { Message, MessageMetadata } from "./_base.message";
+import { Type } from "class-transformer";
+import { IEventMetadata } from "../interfaces/event.interface";
+
+export class EventMetadata extends MessageMetadata implements IEventMetadata {
+  public $correlationId: string;
+}
 
 export abstract class Event extends Message {
-  public readonly $correlationId: string;
-  public readonly $streamID: string;
+  @Type(() => EventMetadata)
+  public readonly $metadata: EventMetadata;
+  public readonly $streamId: string;
+
+  constructor() {
+    super();
+    this.$metadata = new EventMetadata();
+  }
 }

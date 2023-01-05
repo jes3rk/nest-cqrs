@@ -1,4 +1,4 @@
-import { JSONType, MetadataType } from "@eventstore/db-client";
+import { MetadataType } from "@eventstore/db-client";
 
 export interface JSONEvent {
   id: string;

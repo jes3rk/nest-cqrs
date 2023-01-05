@@ -11,7 +11,9 @@ describe("MessageRequest", () => {
 
     beforeEach(() => {
       message = {
-        $metadata: {},
+        $metadata: {
+          $timestamp: new Date(),
+        },
         $name: "TestMessage",
         $payload: {},
         $uuid: faker.datatype.uuid(),
@@ -34,7 +36,9 @@ describe("MessageRequest", () => {
     beforeEach(() => {
       message = MessageRequest.generateRequest(
         {
-          $metadata: {},
+          $metadata: {
+            $timestamp: new Date(),
+          },
           $name: "TestMessage",
           $payload: {},
           $uuid: faker.datatype.uuid(),
@@ -73,7 +77,9 @@ describe("MessageRequest", () => {
     beforeEach(() => {
       message = MessageRequest.generateRequest(
         {
-          $metadata: {},
+          $metadata: {
+            $timestamp: new Date(),
+          },
           $name: "TestMessage",
           $payload: {},
           $uuid: faker.datatype.uuid(),

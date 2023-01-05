@@ -6,7 +6,7 @@ import { PluginConfiguration } from "./interfaces/plugin-config.interface";
 import { MessagePublisher } from "./publishers/message.publisher";
 import { ConfigModule } from "@nestjs/config";
 import { DiscoveryModule } from "@nestjs/core";
-import { EventFactory } from "./factories/event.factory";
+import { EventBuilderFactory } from "./factories/event-builder.factory";
 import { AggregateFactory } from "./factories/aggregate.factory";
 
 @Module({
@@ -14,11 +14,11 @@ import { AggregateFactory } from "./factories/aggregate.factory";
   providers: [
     AggregateFactory,
     EventClient,
-    EventFactory,
+    EventBuilderFactory,
     MessagePublisher,
     RequestEngine,
   ],
-  exports: [AggregateFactory, EventClient, EventFactory],
+  exports: [AggregateFactory, EventClient, EventBuilderFactory],
 })
 export class CQRSModule {
   /**

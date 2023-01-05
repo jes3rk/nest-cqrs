@@ -1,7 +1,4 @@
 import { Injectable } from "@nestjs/common";
-import { AggregateRoot } from "../classes/aggregate.root";
-import { IEvent } from "../interfaces/event.interface";
-import { ClassConstructor } from "class-transformer";
 import { generateStreamID } from "../cqrs.utilites";
 import {
   AggregateConstructor,
@@ -12,7 +9,7 @@ import { EventBuilder } from "../classes/event.builder";
 type ConstructedEventBuilder = Pick<EventBuilder, "addEventType" | "build">;
 
 @Injectable()
-export class EventFactory {
+export class EventBuilderFactory {
   public generateEventBuilder(
     aggregate: IAggregateRoot,
     correlationId?: string,

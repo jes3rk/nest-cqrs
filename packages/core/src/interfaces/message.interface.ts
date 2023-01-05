@@ -1,5 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IMessageMetadata {}
+export interface IMessageMetadata {
+  $timestamp: Date;
+}
 
 export interface IMessage {
   $metadata: IMessageMetadata;
