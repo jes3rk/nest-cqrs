@@ -32,7 +32,7 @@ jobs:
   test-utils:
     needs: assert-changes
     runs-on: ubuntu-latest
-    if: ${{ needs.assert-changes.outputs.ct == true || needs.assert-changes.outputs.messenger == true }}
+    if: ${{ needs.assert-changes.outputs.ct == true }} || ${{ needs.assert-changes.outputs.messenger == true }}
     strategy:
       matrix:
         node-version: [16.x]
