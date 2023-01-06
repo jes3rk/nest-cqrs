@@ -74,6 +74,34 @@ export class MessageRequest {
     this.state = MessageRequestState.PUBLISH;
   }
 
+  /**
+   * Set state to APPLY_PREPROCESS_MIDDLEWARE
+   *
+   * @throws InvalidMessageRequestStateException
+   */
+  public setStatePreProcess(): void {
+    if (this.state !== MessageRequestState.INGESTED)
+      throw new InvalidMessageRequestStateException(
+        this.state,
+        MessageRequestState.APPLY_PREPROCESS_MIDDLEWARE,
+      );
+    this.state = MessageRequestState.APPLY_PREPROCESS_MIDDLEWARE;
+  }
+
+  /**
+   * Set state to PROCESS
+   *
+   * @throws InvalidMessageRequestStateException
+   */
+  public setStateProcess(): void {
+    if (this.state !== MessageRequestState.APPLY_PREPROCESS_MIDDLEWARE)
+      throw new InvalidMessageRequestStateException(
+        this.state,
+        MessageRequestState.PROCESS,
+      );
+    this.state = MessageRequestState.PROCESS;
+  }
+
   public toPlainMessage(): IMessage {
     return instanceToPlain(this._message) as IMessage;
   }
@@ -84,6 +112,15 @@ export class MessageRequest {
   ): MessageRequest {
     const request = new MessageRequest(message, messageType);
     request.state = MessageRequestState.INITIATED;
+    return request;
+  }
+
+  public static ingestMessage(
+    message: IMessage,
+    messageType: string,
+  ): MessageRequest {
+    const request = new MessageRequest(message, messageType);
+    request.state = MessageRequestState.INGESTED;
     return request;
   }
 }
