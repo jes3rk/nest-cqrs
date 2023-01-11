@@ -4,8 +4,9 @@ export { Aggregate } from "./decorators/aggregate.decorator";
 export { AggregateFactory } from "./factories/aggregate.factory";
 export { Apply } from "./decorators/apply.decorator";
 export { Event } from "./classes/_base.event";
-export { EventClient } from "./classes/event.client";
 export { EventBuilderFactory } from "./factories/event-builder.factory";
+export { EventClient } from "./classes/event.client";
+export { MessageListener } from "./decorators/message-listener.decorator";
 export { CQRSModule } from "./cqrs.module";
 export { EVENT_PUBLISHER, EVENT_READER } from "./cqrs.constants";
 

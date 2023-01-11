@@ -3,7 +3,10 @@ export const APPLY_METADATA = "__apply-metadata__";
 export const EVENT_PUBLISHER = "__event-publisher__";
 export const EVENT_READER = "__event-reader__";
 export const EXCEPTION_FILTER_METADATA = "__filter__";
+export const INGEST_ENDPOINT_METADATA = "__ingest-endpoint__";
+export const PREPROCESS_MIDDLEWARE_METADATA = "__preprocess-middleware__";
 export const PREPUBLISH_MIDDLEWARE_METADATA = "__prepublish-middleware__";
+
 export const REQUEST_METADATA = "__request-metadata__";
 
 export enum MessageRequestState {

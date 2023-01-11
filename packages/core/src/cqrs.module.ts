@@ -12,6 +12,7 @@ import { CQRSModuleConfig } from "./interfaces/module.config";
 import { ClsModule } from "nestjs-cls";
 import { MetadataInterceptor } from "./classes/metadata.interceptor";
 import { RequestMetadataMiddleware } from "./middleware/request-metadata.middleware";
+import { IngestControllerEngine } from "./engine/ingest-controller.engine";
 
 @Module({
   imports: [DiscoveryModule, MessengerModule],
@@ -19,6 +20,7 @@ import { RequestMetadataMiddleware } from "./middleware/request-metadata.middlew
     AggregateFactory,
     EventClient,
     EventBuilderFactory,
+    IngestControllerEngine,
     MessagePublisher,
     RequestEngine,
     RequestMetadataMiddleware,
