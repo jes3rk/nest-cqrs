@@ -9,6 +9,7 @@ export class MessageRequest {
   public readonly messageType: string;
   private _message: IMessage;
   private state: MessageRequestState;
+  private _namespace: string;
 
   constructor(message: IMessage, messageType: string) {
     this._message = message;
@@ -21,6 +22,10 @@ export class MessageRequest {
 
   public get message(): IMessage {
     return this._message;
+  }
+
+  public get namespace(): string {
+    return this._namespace;
   }
 
   public get $name(): IMessage["$name"] {
@@ -118,9 +123,11 @@ export class MessageRequest {
   public static ingestMessage(
     message: IMessage,
     messageType: string,
+    namespace: string,
   ): MessageRequest {
     const request = new MessageRequest(message, messageType);
     request.state = MessageRequestState.INGESTED;
+    request._namespace = namespace;
     return request;
   }
 }
