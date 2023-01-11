@@ -132,7 +132,10 @@ export class IngestControllerEngine implements OnApplicationBootstrap {
       const { instance, host } = wrapper;
       if (!(instance && host)) return;
 
-      const { instance: namespace } = host.getProviderByKey<string>(NAMESPACE);
+      const nsWrapper = host.getProviderByKey<string>(NAMESPACE);
+      if (!nsWrapper) return; // if there is no namespace, exit
+      const namespace = nsWrapper.instance;
+
       if (!this.ingestControllerMap.has(namespace))
         this.ingestControllerMap.set(namespace, new Map());
 

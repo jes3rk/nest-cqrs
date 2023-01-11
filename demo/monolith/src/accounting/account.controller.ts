@@ -3,6 +3,8 @@ import { Body, Controller, Param, Post } from "@nestjs/common";
 import { CreateAccountInput } from "./dto/create-account.input";
 import { OperationResponse } from "../common/operation.response";
 import { CreateTransactionInput } from "./dto/create-transaction.input";
+import { AccountCreatedEvent } from "../common/events/account-created.event";
+import { MessageListener } from "@nest-cqrs/core";
 
 @Controller("account")
 export class AccountController {
@@ -19,5 +21,10 @@ export class AccountController {
     @Body() input: CreateTransactionInput,
   ): Promise<OperationResponse> {
     return this.writeService.addTransactionToAccount(accountId, input);
+  }
+
+  @MessageListener(AccountCreatedEvent)
+  handleAccountCreated(event: AccountCreatedEvent): void {
+    // pass
   }
 }

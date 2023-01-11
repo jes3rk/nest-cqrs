@@ -15,22 +15,25 @@ import { IngestControllerEngine } from "./engine/ingest-controller.engine";
 import { CQRSModuleForFeature } from "./interfaces/module-forFeature.config";
 import { NAMESPACE } from "./cqrs.constants";
 
+@Module({})
+class CQRSCoreModule {}
+
 @Module({
-  imports: [DiscoveryModule, MessengerModule],
-  providers: [
-    AggregateFactory,
-    EventClient,
-    EventBuilderFactory,
-    IngestControllerEngine,
-    MessagePublisher,
-    RequestEngine,
-    RequestMetadataMiddleware,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: MetadataInterceptor,
-    },
-  ],
-  exports: [AggregateFactory, EventClient, EventBuilderFactory],
+  // imports: [DiscoveryModule, MessengerModule],
+  // providers: [
+  //   AggregateFactory,
+  //   EventClient,
+  //   EventBuilderFactory,
+  //   IngestControllerEngine,
+  //   MessagePublisher,
+  //   RequestEngine,
+  //   RequestMetadataMiddleware,
+  //   {
+  //     provide: APP_INTERCEPTOR,
+  //     useClass: MetadataInterceptor,
+  //   },
+  // ],
+  // exports: [AggregateFactory, EventClient, EventBuilderFactory],
 })
 export class CQRSModule {
   /**
@@ -58,14 +61,34 @@ export class CQRSModule {
     return {
       imports: [
         ConfigModule,
+        DiscoveryModule,
         includeCLS &&
           ClsModule.forRoot({
             middleware: { mount: true },
           }),
+        MessengerModule,
       ],
-      providers: [...eventStoreConfig.providers],
-      exports: [...eventStoreConfig.exports],
-      module: CQRSModule,
+      providers: [
+        AggregateFactory,
+        EventClient,
+        EventBuilderFactory,
+        IngestControllerEngine,
+        MessagePublisher,
+        RequestEngine,
+        RequestMetadataMiddleware,
+        {
+          provide: APP_INTERCEPTOR,
+          useClass: MetadataInterceptor,
+        },
+        ...eventStoreConfig.providers,
+      ],
+      exports: [
+        AggregateFactory,
+        EventClient,
+        EventBuilderFactory,
+        ...eventStoreConfig.exports,
+      ],
+      module: CQRSCoreModule,
       global: true,
     };
   }
