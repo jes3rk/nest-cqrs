@@ -29,21 +29,27 @@ describe("Utilities", () => {
 
   describe("generateStreamID", () => {
     let id: string;
+    let prefix: string;
 
     beforeEach(() => {
       id = faker.datatype.uuid();
+      prefix = faker.random.alpha(4);
     });
 
     it("will generate a parsed name from the aggregate", () => {
       class DummyAggregate {}
-      expect(generateStreamID(id, DummyAggregate)).toEqual(`dummy.${id}`);
+      expect(generateStreamID(prefix, id, DummyAggregate)).toEqual(
+        `${prefix}.dummy.${id}`,
+      );
     });
 
     it("will allow overriding the default name", () => {
       @Aggregate({ name: "hello" })
       class DummyAggregate {}
 
-      expect(generateStreamID(id, DummyAggregate)).toEqual(`hello.${id}`);
+      expect(generateStreamID(prefix, id, DummyAggregate)).toEqual(
+        `${prefix}.hello.${id}`,
+      );
     });
   });
 });

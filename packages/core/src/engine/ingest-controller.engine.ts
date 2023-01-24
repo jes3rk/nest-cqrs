@@ -130,10 +130,13 @@ export class IngestControllerEngine implements OnApplicationBootstrap {
 
     this.discovery.getControllers().forEach((wrapper) => {
       const { instance, host } = wrapper;
-      if (!(instance && host)) return;
+      if (!instance) return;
+      if (!host) return;
 
-      const nsWrapper = host.getProviderByKey<string>(NAMESPACE);
-      if (!nsWrapper) return; // if there is no namespace, exit
+      const nsWrapper = [...host.imports]
+        .find((i) => i.hasProvider(NAMESPACE))
+        ?.getProviderByKey(NAMESPACE);
+      if (!nsWrapper) return;
       const namespace = nsWrapper.instance;
 
       if (!this.ingestControllerMap.has(namespace))

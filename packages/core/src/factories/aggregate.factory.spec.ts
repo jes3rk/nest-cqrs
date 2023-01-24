@@ -1,8 +1,9 @@
+import { faker } from "@faker-js/faker";
 import { Injectable } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { AggregateRoot } from "../classes/aggregate.root";
 import { Event } from "../classes/_base.event";
-import { EVENT_READER } from "../cqrs.constants";
+import { APPLICATION_NAME, EVENT_READER } from "../cqrs.constants";
 import { Aggregate } from "../decorators/aggregate.decorator";
 import { Apply } from "../decorators/apply.decorator";
 import { IEventReader } from "../interfaces/event-reader.interface";
@@ -10,6 +11,7 @@ import { IEvent } from "../interfaces/event.interface";
 import { AggregateFactory } from "./aggregate.factory";
 
 describe("AggregateFactory", () => {
+  const applicationName = faker.random.alpha(3);
   let factory: AggregateFactory;
   let reader: MockEventReader;
 
@@ -34,6 +36,10 @@ describe("AggregateFactory", () => {
     const module = await Test.createTestingModule({
       providers: [
         AggregateFactory,
+        {
+          provide: APPLICATION_NAME,
+          useValue: applicationName,
+        },
         {
           provide: EVENT_READER,
           useClass: MockEventReader,

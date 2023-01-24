@@ -25,6 +25,6 @@ export class AccountController {
 
   @MessageListener(AccountCreatedEvent)
   handleAccountCreated(event: AccountCreatedEvent): void {
-    // pass
+    console.error(event);
   }
 }

@@ -6,14 +6,23 @@ export { Apply } from "./decorators/apply.decorator";
 export { Event } from "./classes/_base.event";
 export { EventBuilderFactory } from "./factories/event-builder.factory";
 export { EventClient } from "./classes/event.client";
+export { IngestControllerEngine } from "./engine/ingest-controller.engine";
 export { MessageListener } from "./decorators/message-listener.decorator";
+export { MessageRequest } from "./classes/message-request.class";
 export { CQRSModule } from "./cqrs.module";
-export { EVENT_PUBLISHER, EVENT_READER } from "./cqrs.constants";
+export {
+  APPLICATION_NAME,
+  EVENT_LISTENER_FACTORY,
+  EVENT_PUBLISHER,
+  EVENT_READER,
+  MessageType,
+} from "./cqrs.constants";
 
 export type { IEvent, IEventMetadata } from "./interfaces/event.interface";
 export type { IPublisher } from "./interfaces/publisher.interface";
 export type { IEventReader } from "./interfaces/event-reader.interface";
 export type { PluginConfiguration } from "./interfaces/plugin-config.interface";
+export type { EventListenerFactory } from "./interfaces/event-listener-factory.interface";
 
 type _OmitProvider<T> = Omit<T, "provide">;
 export type CQRSProvider<T> =

@@ -2,17 +2,23 @@ import { faker } from "@faker-js/faker";
 import { Test } from "@nestjs/testing";
 import { ClsService } from "nestjs-cls";
 import { Event } from "../classes/_base.event";
+import { APPLICATION_NAME } from "../cqrs.constants";
 import { Aggregate } from "../decorators/aggregate.decorator";
 import { IEvent } from "../interfaces/event.interface";
 import { EventBuilderFactory } from "./event-builder.factory";
 
 describe("EventFactory", () => {
+  const applicationName = faker.random.alpha(3);
   let factory: EventBuilderFactory;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       providers: [
         EventBuilderFactory,
+        {
+          provide: APPLICATION_NAME,
+          useValue: applicationName,
+        },
         {
           provide: ClsService,
           useValue: {
@@ -46,6 +52,6 @@ describe("EventFactory", () => {
       .build()[0];
 
     expect(evt).toBeInstanceOf(TestEvent);
-    expect(evt.$streamId).toEqual(`test.${agg.id}`);
+    expect(evt.$streamId).toEqual(`${applicationName}.test.${agg.id}`);
   });
 });

@@ -13,7 +13,12 @@ import { MetadataInterceptor } from "./classes/metadata.interceptor";
 import { RequestMetadataMiddleware } from "./middleware/request-metadata.middleware";
 import { IngestControllerEngine } from "./engine/ingest-controller.engine";
 import { CQRSModuleForFeature } from "./interfaces/module-forFeature.config";
-import { NAMESPACE } from "./cqrs.constants";
+import {
+  APPLICATION_NAME,
+  EVENT_LISTENER_FACTORY,
+  NAMESPACE,
+} from "./cqrs.constants";
+import { EventListenerFactory } from "./interfaces/event-listener-factory.interface";
 
 @Module({})
 class CQRSCoreModule {}
@@ -43,10 +48,18 @@ export class CQRSModule {
   public static forFeature(config: CQRSModuleForFeature): DynamicModule {
     return {
       module: CQRSModule,
+      exports: [NAMESPACE],
       providers: [
         {
           provide: NAMESPACE,
           useValue: config.namespace,
+        },
+        {
+          provide: `EventListener::${config.namespace}`,
+          inject: [EVENT_LISTENER_FACTORY],
+          useFactory(factory: EventListenerFactory) {
+            return factory.provideForNamespace(config.namespace);
+          },
         },
       ],
     };
@@ -57,7 +70,7 @@ export class CQRSModule {
    * the config module and other required modules.
    */
   public static forRoot(config: CQRSModuleConfig): DynamicModule {
-    const { includeCLS = true, eventStoreConfig } = config;
+    const { applicationName, includeCLS = true, eventStoreConfig } = config;
     return {
       imports: [
         ConfigModule,
@@ -80,12 +93,18 @@ export class CQRSModule {
           provide: APP_INTERCEPTOR,
           useClass: MetadataInterceptor,
         },
+        {
+          provide: APPLICATION_NAME,
+          useValue: applicationName,
+        },
         ...eventStoreConfig.providers,
       ],
       exports: [
         AggregateFactory,
+        APPLICATION_NAME,
         EventClient,
         EventBuilderFactory,
+        EVENT_LISTENER_FACTORY,
         ...eventStoreConfig.exports,
       ],
       module: CQRSCoreModule,

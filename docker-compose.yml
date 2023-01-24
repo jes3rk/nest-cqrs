@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   eventstore.db:
-    image: eventstore/eventstore:20.10.2-buster-slim
+    image: eventstore/eventstore:latest
     environment:
       - EVENTSTORE_CLUSTER_SIZE=1
       - EVENTSTORE_RUN_PROJECTIONS=All

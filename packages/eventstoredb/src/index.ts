@@ -10,6 +10,8 @@ import { EVENT_STORE_CONFIG } from "./eventstore.constants";
 import { EventstoreDBConfig } from "./interfaces/eventstore.config";
 import { Provider } from "@nestjs/common";
 import { EventstoreReader } from "./eventstore.reader";
+import { EVENT_LISTENER_FACTORY } from "@nest-cqrs/core";
+import { EventStoreListenerFactory } from "./event-listener.factory";
 
 export function configureEventStoreDB(config: {
   eventStoreConfig: CQRSProvider<EventstoreDBConfig>;
@@ -29,6 +31,10 @@ export function configureEventStoreDB(config: {
         provide: EVENT_STORE_CONFIG,
         ...config.eventStoreConfig,
       } as Provider,
+      {
+        provide: EVENT_LISTENER_FACTORY,
+        useClass: EventStoreListenerFactory,
+      },
     ],
     exports: [],
   };
