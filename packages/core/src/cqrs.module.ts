@@ -19,36 +19,22 @@ import {
   NAMESPACE,
 } from "./cqrs.constants";
 import { EventListenerFactory } from "./interfaces/event-listener-factory.interface";
+import { SubscriberFactory } from "./factories/subscriber.factory";
 
 @Module({})
 class CQRSCoreModule {}
 
-@Module({
-  // imports: [DiscoveryModule, MessengerModule],
-  // providers: [
-  //   AggregateFactory,
-  //   EventClient,
-  //   EventBuilderFactory,
-  //   IngestControllerEngine,
-  //   MessagePublisher,
-  //   RequestEngine,
-  //   RequestMetadataMiddleware,
-  //   {
-  //     provide: APP_INTERCEPTOR,
-  //     useClass: MetadataInterceptor,
-  //   },
-  // ],
-  // exports: [AggregateFactory, EventClient, EventBuilderFactory],
-})
+@Module({})
 export class CQRSModule {
   /**
    * Provide feature level configs, including grouping related modules
    * by namespace to treat them as one consumer.
    */
   public static forFeature(config: CQRSModuleForFeature): DynamicModule {
+    const subscriberToken = `SubscriberFactory::${config.namespace}`;
     return {
       module: CQRSModule,
-      exports: [NAMESPACE],
+      exports: [NAMESPACE, subscriberToken],
       providers: [
         {
           provide: NAMESPACE,
@@ -56,10 +42,17 @@ export class CQRSModule {
         },
         {
           provide: `EventListener::${config.namespace}`,
-          inject: [EVENT_LISTENER_FACTORY],
-          useFactory(factory: EventListenerFactory) {
-            return factory.provideForNamespace(config.namespace);
+          inject: [EVENT_LISTENER_FACTORY, subscriberToken],
+          useFactory(
+            factory: EventListenerFactory,
+            subFactory: SubscriberFactory,
+          ) {
+            return factory.provideForNamespace(config.namespace, subFactory);
           },
+        },
+        {
+          provide: subscriberToken,
+          useClass: SubscriberFactory,
         },
       ],
     };

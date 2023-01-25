@@ -133,7 +133,7 @@ export class IngestControllerEngine implements OnApplicationBootstrap {
       if (!instance) return;
       if (!host) return;
 
-      const nsWrapper = [...host.imports]
+      const nsWrapper = [...host.imports, host]
         .find((i) => i.hasProvider(NAMESPACE))
         ?.getProviderByKey(NAMESPACE);
       if (!nsWrapper) return;

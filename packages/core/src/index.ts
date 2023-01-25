@@ -7,8 +7,10 @@ export { Event } from "./classes/_base.event";
 export { EventBuilderFactory } from "./factories/event-builder.factory";
 export { EventClient } from "./classes/event.client";
 export { IngestControllerEngine } from "./engine/ingest-controller.engine";
+export { InjectSubscriberFactory } from "./decorators/inject-subscriber-factory.decorator";
 export { MessageListener } from "./decorators/message-listener.decorator";
 export { MessageRequest } from "./classes/message-request.class";
+export { SubscriberFactory } from "./factories/subscriber.factory";
 export { CQRSModule } from "./cqrs.module";
 export {
   APPLICATION_NAME,

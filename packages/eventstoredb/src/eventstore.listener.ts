@@ -3,14 +3,15 @@ import {
   OnApplicationBootstrap,
 } from "@nestjs/common";
 import {
+  IEvent,
   IngestControllerEngine,
   MessageRequest,
   MessageType,
+  SubscriberFactory,
 } from "@nest-cqrs/core";
 import { EventStoreClient } from "./eventstore.client";
 import {
   DISPATCH_TO_SINGLE,
-  excludeSystemEvents,
   PARK,
   PersistentSubscriptionExistsError,
   PersistentSubscriptionToAll,
@@ -30,6 +31,7 @@ export class EventStoreListener
     private readonly client: EventStoreClient,
     private readonly ingestEngine: IngestControllerEngine,
     private readonly namespace: string,
+    private readonly subscriberFactory: SubscriberFactory,
   ) {}
 
   private async initSubscriptionGroupIfNotExists(): Promise<void> {
@@ -68,6 +70,7 @@ export class EventStoreListener
           this.namespace,
         );
         await this.ingestEngine.handleIngestRequest(messageRequest);
+        this.subscriberFactory.publishEvent(messageRequest.message as IEvent);
         await subscription.ack(data);
       } catch (err) {
         console.log(err);

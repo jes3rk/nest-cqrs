@@ -1,3 +1,8 @@
+import { SubscriberFactory } from "../factories/subscriber.factory";
+
 export interface EventListenerFactory {
-  provideForNamespace(namespace: string): object;
+  provideForNamespace(
+    namespace: string,
+    subscriberFactory: SubscriberFactory,
+  ): object;
 }
