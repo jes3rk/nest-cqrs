@@ -1,15 +1,20 @@
-import { INestApplication } from "@nestjs/common";
+import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppModule } from "../src/app.module";
 import * as request from "supertest";
 import { CreateAccountInput } from "../src/accounting/dto/create-account.input";
 import { faker } from "@faker-js/faker";
 import { CreateTransactionInput } from "../src/accounting/dto/create-transaction.input";
+import { WsClient } from "./utilities/ws.client";
+import { AccountCreatedEvent } from "../src/common/events/account-created.event";
+import { WsAdapter } from "@nestjs/platform-ws";
+import { TransactionAppliedToAccountEvent } from "../src/common/events/transaction-applied-to-account.event";
 
 describe("Account", () => {
   let app: INestApplication;
   let clientId: string;
   let server: typeof request;
+  let wsClient: WsClient;
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
@@ -17,12 +22,21 @@ describe("Account", () => {
     }).compile();
 
     app = module.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
+    app.useWebSocketAdapter(new WsAdapter(app));
     await app.init();
     server = app.getHttpServer();
     clientId = faker.random.alphaNumeric(6);
+
+    wsClient = await WsClient.fromApplication(app);
+    wsClient.sendMessage({
+      event: "account/by_client_id",
+      data: { clientId },
+    });
   });
 
   afterAll(async () => {
+    wsClient.close();
     await app.close();
   });
 
@@ -35,8 +49,8 @@ describe("Account", () => {
       };
     });
 
-    it("will create a new account", () => {
-      return request(server)
+    it("will create a new account and emit an account created event", async () => {
+      await request(server)
         .post("/account")
         .set("x-cqrs-client-id", clientId)
         .send(input)
@@ -45,6 +59,12 @@ describe("Account", () => {
           expect(body).toHaveProperty("rootId");
           expect(body).toHaveProperty("correlationId");
         });
+
+      const event = await wsClient.listenForEvent<AccountCreatedEvent>(
+        (e) => e.$name === AccountCreatedEvent.name,
+      );
+      expect(event.$payload.name).toEqual(input.name);
+      expect(event.$payload.balance).toEqual(0);
     });
   });
 
@@ -57,7 +77,7 @@ describe("Account", () => {
       };
     });
 
-    it("will apply the transaction correctly", async () => {
+    it("will apply the transaction correctly and emit a transaction applied event", async () => {
       const res = await request(server)
         .post("/account")
         .set("x-cqrs-client-id", clientId)
@@ -68,7 +88,7 @@ describe("Account", () => {
 
       const accountId = res.body.rootId;
 
-      return request(server)
+      await request(server)
         .post(`/account/${accountId}/transaction`)
         .set("x-cqrs-client-id", clientId)
         .send(input)
@@ -76,6 +96,14 @@ describe("Account", () => {
         .expect(({ body }) => {
           expect(body).toHaveProperty("rootId", accountId);
         });
+
+      const event =
+        await wsClient.listenForEvent<TransactionAppliedToAccountEvent>(
+          (e) =>
+            e.$name === TransactionAppliedToAccountEvent.name &&
+            e.$streamId.includes(accountId),
+        );
+      expect(event.$payload.amount).toEqual(input.amount);
     });
 
     it("will throw a 400 if accountId isn't a uuid", () => {

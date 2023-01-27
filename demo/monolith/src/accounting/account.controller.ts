@@ -5,10 +5,14 @@ import { OperationResponse } from "../common/operation.response";
 import { CreateTransactionInput } from "./dto/create-transaction.input";
 import { AccountCreatedEvent } from "../common/events/account-created.event";
 import { MessageListener } from "@nest-cqrs/core";
+import { AccountingReadService } from "./accounting.read.service";
 
 @Controller("account")
 export class AccountController {
-  constructor(private readonly writeService: AccountingWriteService) {}
+  constructor(
+    private readonly readService: AccountingReadService,
+    private readonly writeService: AccountingWriteService,
+  ) {}
 
   @Post()
   createAccount(@Body() input: CreateAccountInput): Promise<OperationResponse> {
@@ -25,6 +29,6 @@ export class AccountController {
 
   @MessageListener(AccountCreatedEvent)
   handleAccountCreated(event: AccountCreatedEvent): void {
-    console.error(event);
+    this.readService.handleAccountCreated(event);
   }
 }

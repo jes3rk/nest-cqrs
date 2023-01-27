@@ -1,7 +1,8 @@
-import { INestApplication } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
+import { INestApplication, ValidationPipe } from "@nestjs/common";
+import { Test } from "@nestjs/testing";
 import { AppModule } from "../src/app.module";
 import * as request from "supertest";
+import { WsAdapter } from "@nestjs/platform-ws";
 
 describe("App", () => {
   let app: INestApplication;
@@ -13,6 +14,8 @@ describe("App", () => {
     }).compile();
 
     app = module.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
+    app.useWebSocketAdapter(new WsAdapter(app));
     await app.init();
     server = app.getHttpServer();
   });
