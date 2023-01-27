@@ -1,6 +1,5 @@
 import {
   ExceptionFilter,
-  Inject,
   Injectable,
   OnApplicationBootstrap,
 } from "@nestjs/common";
@@ -10,12 +9,12 @@ import {
   MessageRequestState,
   PREPUBLISH_MIDDLEWARE_METADATA,
 } from "../cqrs.constants";
-import { IPreProcessMiddleware } from "../interfaces/preprocess-middleware.interface";
 import { IPrePublishMiddleware } from "../interfaces/prepublish-middleware.interface";
 import { DiscoveryService } from "@nestjs/core";
 import { MessagePublisher } from "../publishers/message.publisher";
 import { IEvent } from "../interfaces/event.interface";
 import { initializeAndAddToArrayMap } from "../cqrs.utilites";
+import { IngestControllerEngine } from "./ingest-controller.engine";
 
 @Injectable()
 export class RequestEngine implements OnApplicationBootstrap {
@@ -24,17 +23,16 @@ export class RequestEngine implements OnApplicationBootstrap {
     IEvent["$name"],
     IPrePublishMiddleware[]
   >;
-  private preProcessMiddleware: IPreProcessMiddleware[];
   private filters: Map<string, ExceptionFilter[]>;
 
   constructor(
     private readonly explorer: DiscoveryService,
     private readonly publisher: MessagePublisher,
+    private readonly ingestEngine: IngestControllerEngine,
   ) {
     this.globalPrePublishMiddleware = [];
     this.scopedPrePublishMiddleware = new Map();
 
-    this.preProcessMiddleware = [];
     this.filters = new Map();
   }
 
@@ -76,6 +74,7 @@ export class RequestEngine implements OnApplicationBootstrap {
         return this._handleStateInitiated(message);
       case MessageRequestState.APPLY_PREPUBLISH_MIDDLEWARE:
         return this._handleStatePublish(message);
+
       case MessageRequestState.APPLY_FILTERS:
         return this._handleStateFilters(message);
     }

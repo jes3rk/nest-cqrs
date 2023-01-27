@@ -8,6 +8,7 @@ import { configureEventStoreDB } from "@nest-cqrs/eventstoredb";
 @Module({
   imports: [
     CQRSModule.forRoot({
+      applicationName: "demo",
       eventStoreConfig: configureEventStoreDB({
         eventStoreConfig: {
           useValue: {

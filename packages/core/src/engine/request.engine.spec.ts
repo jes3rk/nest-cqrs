@@ -12,6 +12,7 @@ import { CQRSFilter } from "../decorators/cqrs-filter.decorator";
 import { IPublisher } from "../interfaces/publisher.interface";
 import { MessagePublisher } from "../publishers/message.publisher";
 import { Message } from "../classes/_base.message";
+import { IngestControllerEngine } from "./ingest-controller.engine";
 
 describe("RequestEngine", () => {
   let engine: RequestEngine;
@@ -53,6 +54,7 @@ describe("RequestEngine", () => {
         DiscoveryService,
         TestFilter,
         ScopedTestPreMiddleware,
+        IngestControllerEngine,
         {
           provide: MessagePublisher,
           useValue: {
@@ -65,8 +67,10 @@ describe("RequestEngine", () => {
     engine = module.get(RequestEngine);
     preMiddleware = module.get(TestPreMiddleware);
     scopedPreMiddleware = module.get(ScopedTestPreMiddleware);
+
     filter = module.get(TestFilter);
     publisher = module.get(MessagePublisher);
+
     engine.onApplicationBootstrap();
   });
 
@@ -74,7 +78,7 @@ describe("RequestEngine", () => {
     expect(engine).toBeDefined();
   });
 
-  describe("handleMessageRequest", () => {
+  describe("handleMessageRequest to publish", () => {
     let message: MessageRequest;
 
     beforeEach(() => {
@@ -97,7 +101,7 @@ describe("RequestEngine", () => {
       expect(message.STATE).toEqual(MessageRequestState.PUBLISH);
     });
 
-    it("will apply global middleware functions", async () => {
+    it("will apply global prepublish middleware functions", async () => {
       const preSpy = jest.spyOn(preMiddleware, "apply");
       await engine.handleMessageRequest(message);
 
@@ -105,7 +109,7 @@ describe("RequestEngine", () => {
       expect(preSpy).toHaveBeenCalledWith(message.message);
     });
 
-    it("will apply local middleware functions", async () => {
+    it("will apply local prepublish middleware functions", async () => {
       const preSpy = jest.spyOn(scopedPreMiddleware, "apply");
       await engine.handleMessageRequest(message);
 

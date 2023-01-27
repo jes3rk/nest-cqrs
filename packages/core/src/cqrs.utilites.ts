@@ -36,11 +36,12 @@ export function initializeAndAddToArrayMap<K, V>(
 }
 
 export function generateStreamID(
+  prefix: string,
   aggregateId: string,
   aggregatePrototype: ClassConstructor<any>,
 ): string {
   const aggregateName =
     Reflect.getMetadata(AGGREGATE_METADATA, aggregatePrototype)?.name ||
     aggregatePrototype.name.replace(/([Aa]ggregate)/, "");
-  return aggregateName.toLowerCase() + "." + aggregateId;
+  return prefix + "." + aggregateName.toLowerCase() + "." + aggregateId;
 }

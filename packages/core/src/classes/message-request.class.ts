@@ -9,6 +9,7 @@ export class MessageRequest {
   public readonly messageType: string;
   private _message: IMessage;
   private state: MessageRequestState;
+  private _namespace: string;
 
   constructor(message: IMessage, messageType: string) {
     this._message = message;
@@ -21,6 +22,10 @@ export class MessageRequest {
 
   public get message(): IMessage {
     return this._message;
+  }
+
+  public get namespace(): string {
+    return this._namespace;
   }
 
   public get $name(): IMessage["$name"] {
@@ -74,6 +79,34 @@ export class MessageRequest {
     this.state = MessageRequestState.PUBLISH;
   }
 
+  /**
+   * Set state to APPLY_PREPROCESS_MIDDLEWARE
+   *
+   * @throws InvalidMessageRequestStateException
+   */
+  public setStatePreProcess(): void {
+    if (this.state !== MessageRequestState.INGESTED)
+      throw new InvalidMessageRequestStateException(
+        this.state,
+        MessageRequestState.APPLY_PREPROCESS_MIDDLEWARE,
+      );
+    this.state = MessageRequestState.APPLY_PREPROCESS_MIDDLEWARE;
+  }
+
+  /**
+   * Set state to PROCESS
+   *
+   * @throws InvalidMessageRequestStateException
+   */
+  public setStateProcess(): void {
+    if (this.state !== MessageRequestState.APPLY_PREPROCESS_MIDDLEWARE)
+      throw new InvalidMessageRequestStateException(
+        this.state,
+        MessageRequestState.PROCESS,
+      );
+    this.state = MessageRequestState.PROCESS;
+  }
+
   public toPlainMessage(): IMessage {
     return instanceToPlain(this._message) as IMessage;
   }
@@ -84,6 +117,17 @@ export class MessageRequest {
   ): MessageRequest {
     const request = new MessageRequest(message, messageType);
     request.state = MessageRequestState.INITIATED;
+    return request;
+  }
+
+  public static ingestMessage(
+    message: IMessage,
+    messageType: string,
+    namespace: string,
+  ): MessageRequest {
+    const request = new MessageRequest(message, messageType);
+    request.state = MessageRequestState.INGESTED;
+    request._namespace = namespace;
     return request;
   }
 }
