@@ -38,7 +38,7 @@ export class AccountingWriteService {
       AccountAggregate,
     );
 
-    const eventBuilder = this.eventFactory.generateEventBuilder(
+    const eventBuilder = this.eventFactory.generateEventBuilderFromAggregate(
       aggregate,
       response.correlationId,
     );
@@ -73,7 +73,7 @@ export class AccountingWriteService {
       throw new NotFoundException();
 
     const events = this.eventFactory
-      .generateEventBuilder(aggregate, response.correlationId)
+      .generateEventBuilderFromAggregate(aggregate, response.correlationId)
       .addEventType(TransactionAppliedToAccountEvent)
       .addPayload(
         aggregate.createTransactionAppliedToAccountPayload(transaction),
