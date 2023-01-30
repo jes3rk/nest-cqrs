@@ -60,7 +60,7 @@ jobs:
           node common/scripts/install-run-rush.js build -T nest-messenger && \
           npm run test --prefix packages/messenger
   test-nest-cqrs:
-    needs: check-dependencies
+    needs: verify
     runs-on: ubuntu-latest
     strategy:
       matrix:
