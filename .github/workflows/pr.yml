@@ -36,12 +36,10 @@ jobs:
       - name: Rush Install
         run: node common/scripts/install-run-rush.js install
       - name: Build and Test packages/class-transformer-storage
-        if: ${{ needs.assert-changes.outputs.ct == true }}
         run: | 
           node common/scripts/install-run-rush.js build -T class-transformer-storage && \
           npm run test --prefix packages/class-transformer-storage
       - name: Build and Test packages/messenger
-        if: ${{ needs.assert-changes.outputs.messenger == true }}
         run: | 
           node common/scripts/install-run-rush.js build -T nest-messenger && \
           npm run test --prefix packages/messenger
