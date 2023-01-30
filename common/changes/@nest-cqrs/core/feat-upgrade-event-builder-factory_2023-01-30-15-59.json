@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@nest-cqrs/core",
+      "comment": "Change event builder factory to allow for multiple event generation types",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@nest-cqrs/core"
+}
