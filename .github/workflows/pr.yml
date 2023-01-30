@@ -21,24 +21,8 @@ jobs:
         run: node common/scripts/install-run-rush.js check
       - name: Assert Changelogs
         run: node common/scripts/install-run-rush.js change --verify
-  assert-changes:
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: read
-    outputs:
-      ct: ${{ steps.filter.output.ct }}
-      messenger: ${{ steps.filter.output.messenger }}
-    steps:
-    - uses: dorny/paths-filter@v2
-      id: filter
-      with:
-        filters: |
-          ct: packages/ct/**
-          messenger: packages/messenger/**
   test-utils:
-    needs: assert-changes
     runs-on: ubuntu-latest
-    if: ${{ needs.assert-changes.outputs.ct == true }} || ${{ needs.assert-changes.outputs.messenger == true }}
     strategy:
       matrix:
         node-version: [16.x]
