@@ -1,6 +1,14 @@
 # Change Log - @nest-cqrs/core
 
-This log was last generated on Mon, 30 Jan 2023 12:19:04 GMT and should not be manually modified.
+This log was last generated on Mon, 30 Jan 2023 16:03:49 GMT and should not be manually modified.
+
+## 1.1.0
+
+Mon, 30 Jan 2023 16:03:49 GMT
+
+### Minor changes
+
+- Change event builder factory to allow for multiple event generation types
 
 ## 1.0.0
 

@@ -38,10 +38,12 @@ export function initializeAndAddToArrayMap<K, V>(
 export function generateStreamID(
   prefix: string,
   aggregateId: string,
-  aggregatePrototype: ClassConstructor<any>,
+  aggregatePrototype: ClassConstructor<any> | string,
 ): string {
   const aggregateName =
-    Reflect.getMetadata(AGGREGATE_METADATA, aggregatePrototype)?.name ||
-    aggregatePrototype.name.replace(/([Aa]ggregate)/, "");
+    typeof aggregatePrototype === "string"
+      ? aggregatePrototype
+      : Reflect.getMetadata(AGGREGATE_METADATA, aggregatePrototype)?.name ||
+        aggregatePrototype.name.replace(/([Aa]ggregate)/, "");
   return prefix + "." + aggregateName.toLowerCase() + "." + aggregateId;
 }

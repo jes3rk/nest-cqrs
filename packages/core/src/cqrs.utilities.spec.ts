@@ -51,5 +51,11 @@ describe("Utilities", () => {
         `${prefix}.hello.${id}`,
       );
     });
+
+    it("will function with a string name", () => {
+      expect(generateStreamID(prefix, id, "hello")).toEqual(
+        `${prefix}.hello.${id}`,
+      );
+    });
   });
 });
