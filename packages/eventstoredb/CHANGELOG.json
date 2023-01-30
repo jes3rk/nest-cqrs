@@ -2,6 +2,18 @@
   "name": "@nest-cqrs/eventstoredb",
   "entries": [
     {
+      "version": "1.0.1",
+      "tag": "@nest-cqrs/eventstoredb_v1.0.1",
+      "date": "Mon, 30 Jan 2023 13:40:19 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix teardown behavior"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.0",
       "tag": "@nest-cqrs/eventstoredb_v1.0.0",
       "date": "Mon, 30 Jan 2023 12:19:04 GMT",
