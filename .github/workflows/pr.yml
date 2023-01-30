@@ -21,24 +21,8 @@ jobs:
         run: node common/scripts/install-run-rush.js check
       - name: Assert Changelogs
         run: node common/scripts/install-run-rush.js change --verify
-  assert-changes:
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: read
-    outputs:
-      ct: ${{ steps.filter.output.ct }}
-      messenger: ${{ steps.filter.output.messenger }}
-    steps:
-    - uses: dorny/paths-filter@v2
-      id: filter
-      with:
-        filters: |
-          ct: packages/ct/**
-          messenger: packages/messenger/**
   test-utils:
-    needs: assert-changes
     runs-on: ubuntu-latest
-    if: ${{ needs.assert-changes.outputs.ct == true }} || ${{ needs.assert-changes.outputs.messenger == true }}
     strategy:
       matrix:
         node-version: [16.x]
@@ -52,12 +36,10 @@ jobs:
       - name: Rush Install
         run: node common/scripts/install-run-rush.js install
       - name: Build and Test packages/class-transformer-storage
-        if: ${{ needs.assert-changes.outputs.ct == true }}
         run: | 
           node common/scripts/install-run-rush.js build -T class-transformer-storage && \
           npm run test --prefix packages/class-transformer-storage
       - name: Build and Test packages/messenger
-        if: ${{ needs.assert-changes.outputs.messenger == true }}
         run: | 
           node common/scripts/install-run-rush.js build -T nest-messenger && \
           npm run test --prefix packages/messenger
