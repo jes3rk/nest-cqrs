@@ -101,6 +101,9 @@ jobs:
           EVENTSTORE_ENABLE_EXTERNAL_TCP: true
           EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP: true
           EVENTSTORE_MEM_DB: true
+        ports:
+          - "1113:1113"
+          - "2113:2113"
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -130,4 +133,4 @@ jobs:
       - name: Rush Build
         run: node common/scripts/install-run-rush.js Build
       - name: Publish
-        run: node common/scripts/install-run-rush.js publish --publish -n ${{ secrets.NPM_TOKEN }}
+        run: node common/scripts/install-run-rush.js publish --publish -n ${{ secrets.NPM_TOKEN }} --apply
