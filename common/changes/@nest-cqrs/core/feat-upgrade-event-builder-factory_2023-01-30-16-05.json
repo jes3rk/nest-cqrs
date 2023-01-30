@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@nest-cqrs/core",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@nest-cqrs/core"
+}
