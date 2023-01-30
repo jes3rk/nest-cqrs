@@ -17,13 +17,13 @@ export class EventBuilderFactory {
   ) {}
 
   public generateEventBuilderFromComponents(
-    aggregateName: string,
+    streamName: string,
     aggregateId: string,
     correlationId?: string,
   ): ConstructedEventBuilder {
     return new EventBuilder()
       .setStreamId(
-        generateStreamID(this.applicationName, aggregateId, aggregateName),
+        generateStreamID(this.applicationName, aggregateId, streamName),
       )
       .setMetadata({
         $correlationId: correlationId || randomUUID(),
