@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@nest-cqrs/eventstoredb",
+      "comment": "Fix teardown behavior",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@nest-cqrs/eventstoredb"
+}
