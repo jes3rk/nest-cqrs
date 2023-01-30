@@ -1,6 +1,6 @@
 {
   "name": "@nest-cqrs/core",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "dist/index.js",
   "peerDependencies": {
     "@nestjs/common": "~9.2.1",

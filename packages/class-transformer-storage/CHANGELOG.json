@@ -1,0 +1,17 @@
+{
+  "name": "class-transformer-storage",
+  "entries": [
+    {
+      "version": "2.0.0",
+      "tag": "class-transformer-storage_v2.0.0",
+      "date": "Mon, 30 Jan 2023 12:19:04 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "v1 release"
+          }
+        ]
+      }
+    }
+  ]
+}
