@@ -1,0 +1,28 @@
+{
+  "name": "@nest-cqrs/eventstoredb",
+  "entries": [
+    {
+      "version": "1.0.0",
+      "tag": "@nest-cqrs/eventstoredb_v1.0.0",
+      "date": "Mon, 30 Jan 2023 12:19:04 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "v1 release"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@nest-cqrs/core\" from `*` to `*`"
+          },
+          {
+            "comment": "Updating dependency \"nest-messenger\" from `*` to `*`"
+          },
+          {
+            "comment": "Updating dependency \"class-transformer-storage\" from `*` to `*`"
+          }
+        ]
+      }
+    }
+  ]
+}

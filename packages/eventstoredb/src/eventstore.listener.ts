@@ -92,6 +92,6 @@ export class EventStoreListener
   }
 
   public async beforeApplicationShutdown() {
-    this.subscription.destroy();
+    await this.subscription.unsubscribe();
   }
 }

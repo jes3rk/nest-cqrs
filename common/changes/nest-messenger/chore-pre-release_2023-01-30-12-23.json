@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "nest-messenger",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "nest-messenger"
+}
