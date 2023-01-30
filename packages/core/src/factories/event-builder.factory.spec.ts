@@ -46,7 +46,7 @@ describe("EventFactory", () => {
 
     const agg = new TestAggregate(faker.datatype.uuid());
     const evt = factory
-      .generateEventBuilder(agg)
+      .generateEventBuilderFromAggregate(agg)
       .addEventType(TestEvent)
       .addPayload({})
       .build()[0];
