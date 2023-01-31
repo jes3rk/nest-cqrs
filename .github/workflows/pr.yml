@@ -17,6 +17,11 @@ jobs:
           fetch-depth: 0
       - name: Setup Node
         uses: actions/setup-node@v3.1.1
+      - name: Restore cache
+        uses: actions/cache@v3.2.4
+        with:
+          path: common/temp/pnpm-store
+          key: ${{ runner.os }}-{{ hashFiles('common/config/rush/pnpm-lock.yaml') }}
       - name: Assert dependency versions
         run: node common/scripts/install-run-rush.js check
       - name: Assert Changelogs
@@ -33,6 +38,11 @@ jobs:
         uses: actions/setup-node@v3.1.1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Restore cache
+        uses: actions/cache@v3.2.4
+        with:
+          path: common/temp/pnpm-store
+          key: ${{ runner.os }}-{{ hashFiles('common/config/rush/pnpm-lock.yaml') }}
       - name: Rush Install
         run: node common/scripts/install-run-rush.js install
       - name: Build and Test packages/class-transformer-storage
@@ -57,6 +67,11 @@ jobs:
         uses: actions/setup-node@v3.1.1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Restore cache
+        uses: actions/cache@v3.2.4
+        with:
+          path: common/temp/pnpm-store
+          key: ${{ runner.os }}-{{ hashFiles('common/config/rush/pnpm-lock.yaml') }}
       - name: Rush Install
         run: node common/scripts/install-run-rush.js install
       - name: Build
@@ -93,6 +108,11 @@ jobs:
       uses: actions/setup-node@v3.1.1
       with:
         node-version: ${{ matrix.node-version }}
+    - name: Restore cache
+      uses: actions/cache@v3.2.4
+      with:
+        path: common/temp/pnpm-store
+        key: ${{ runner.os }}-{{ hashFiles('common/config/rush/pnpm-lock.yaml') }}
     - name: Rush Install
       run: node common/scripts/install-run-rush.js install
     - name: Build
@@ -110,6 +130,11 @@ jobs:
         uses: actions/checkout@v3
       - name: Setup Node
         uses: actions/setup-node@v3.1.1
+      - name: Restore cache
+        uses: actions/cache@v3.2.4
+        with:
+          path: common/temp/pnpm-store
+          key: ${{ runner.os }}-{{ hashFiles('common/config/rush/pnpm-lock.yaml') }}
       - name: Rush Install
         run: node common/scripts/install-run-rush.js install
       - name: Rush Build
