@@ -19,6 +19,7 @@ export {
   EVENT_READER,
   MessageType,
 } from "./cqrs.constants";
+export { parseStreamID } from "./cqrs.utilites";
 
 export type { IEvent, IEventMetadata } from "./interfaces/event.interface";
 export type { IPublisher } from "./interfaces/publisher.interface";
