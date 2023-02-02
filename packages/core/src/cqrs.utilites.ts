@@ -1,3 +1,4 @@
+import { strictEqual } from "assert";
 import { ClassConstructor } from "class-transformer";
 import { AGGREGATE_METADATA } from "./cqrs.constants";
 
@@ -46,4 +47,18 @@ export function generateStreamID(
       : Reflect.getMetadata(AGGREGATE_METADATA, aggregatePrototype)?.name ||
         aggregatePrototype.name.replace(/([Aa]ggregate)/, "");
   return prefix + "." + aggregateName.toLowerCase() + "." + aggregateId;
+}
+
+export function parseStreamID(streamId: string): {
+  appName: string;
+  aggregateName: string;
+  id: string;
+} {
+  const split = streamId.split(".");
+  strictEqual(split.length, 3, "Unparsable StreamID");
+  return {
+    appName: split[0],
+    aggregateName: split[1],
+    id: split[2],
+  };
 }

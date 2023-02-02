@@ -1,5 +1,9 @@
 import { faker } from "@faker-js/faker";
-import { generateStreamID, initializeAndAddToArrayMap } from "./cqrs.utilites";
+import {
+  generateStreamID,
+  initializeAndAddToArrayMap,
+  parseStreamID,
+} from "./cqrs.utilites";
 import { Aggregate } from "./decorators/aggregate.decorator";
 
 describe("Utilities", () => {
@@ -56,6 +60,32 @@ describe("Utilities", () => {
       expect(generateStreamID(prefix, id, "hello")).toEqual(
         `${prefix}.hello.${id}`,
       );
+    });
+  });
+
+  describe("parseStreamID", () => {
+    let appName: string;
+    let id: string;
+
+    class DummyAggregate {}
+
+    beforeEach(() => {
+      appName = faker.random.word();
+      id = faker.datatype.uuid();
+    });
+
+    it("will parse a generated streamID", () => {
+      const streamID = generateStreamID(appName, id, DummyAggregate);
+      expect(parseStreamID(streamID)).toEqual({
+        appName,
+        id,
+        aggregateName: "dummy",
+      });
+    });
+
+    it("will throw an error with an incorrect id", () => {
+      const streamID = faker.random.word();
+      expect(() => parseStreamID(streamID)).toThrowError();
     });
   });
 });
