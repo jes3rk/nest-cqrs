@@ -1,6 +1,14 @@
 # Change Log - @nest-cqrs/core
 
-This log was last generated on Mon, 30 Jan 2023 16:03:49 GMT and should not be manually modified.
+This log was last generated on Thu, 02 Feb 2023 14:21:23 GMT and should not be manually modified.
+
+## 1.1.1
+
+Thu, 02 Feb 2023 14:21:23 GMT
+
+### Patches
+
+- Add and export function to parse a stream id
 
 ## 1.1.0
 
