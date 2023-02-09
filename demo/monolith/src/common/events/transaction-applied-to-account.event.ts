@@ -14,4 +14,5 @@ class TransactionAppliedToAccountPayload
 export class TransactionAppliedToAccountEvent extends Event implements IEvent {
   @Type(() => TransactionAppliedToAccountPayload)
   $payload: TransactionAppliedToAccountPayload;
+  public readonly $version: number = 1;
 }

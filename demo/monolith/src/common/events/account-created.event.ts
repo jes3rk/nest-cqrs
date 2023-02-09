@@ -12,4 +12,5 @@ class AccountCreatedPayload implements Pick<IAccount, "balance" | "name"> {
 export class AccountCreatedEvent extends Event implements IEvent {
   @Type(() => AccountCreatedPayload)
   public $payload: AccountCreatedPayload;
+  public readonly $version: number = 1;
 }
