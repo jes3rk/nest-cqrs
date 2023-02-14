@@ -8,6 +8,7 @@ describe("EventParser", () => {
   @RegisterType()
   class TestEvent extends Event implements IEvent {
     public $payload: unknown;
+    public readonly $version: number = 1;
   }
 
   beforeEach(() => {

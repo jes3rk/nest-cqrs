@@ -2,6 +2,18 @@
   "name": "@nest-cqrs/core",
   "entries": [
     {
+      "version": "1.2.0",
+      "tag": "@nest-cqrs/core_v1.2.0",
+      "date": "Tue, 14 Feb 2023 16:35:17 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Create API for versioning events cleanly via a configuration decorator"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.1.1",
       "tag": "@nest-cqrs/core_v1.1.1",
       "date": "Thu, 02 Feb 2023 14:21:23 GMT",
