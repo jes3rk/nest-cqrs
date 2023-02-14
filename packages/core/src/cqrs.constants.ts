@@ -1,6 +1,7 @@
 export const AGGREGATE_METADATA = "__aggregate-metadata__";
 export const APPLY_METADATA = "__apply-metadata__";
 export const APPLICATION_NAME = "__application-name__";
+export const EVENT_CONFIGURATION = "__event-metadata__";
 export const EVENT_LISTENER_FACTORY = "__event-listener-factory__";
 export const EVENT_PUBLISHER = "__event-publisher__";
 export const EVENT_READER = "__event-reader__";

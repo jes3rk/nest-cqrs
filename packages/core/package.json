@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "class-transformer": "~0.5.1",
+    "class-transformer-storage": "*",
     "reflect-metadata": "~0.1.13",
     "nest-messenger": "*",
     "@nestjs/config": "~2.2.0",

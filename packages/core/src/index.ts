@@ -6,6 +6,8 @@ export { Apply } from "./decorators/apply.decorator";
 export { Event } from "./classes/_base.event";
 export { EventBuilderFactory } from "./factories/event-builder.factory";
 export { EventClient } from "./classes/event.client";
+export { EventConfiguration } from "./decorators/event-configuration.decorator";
+export { EventVersioner } from "./classes/_base.event-versioner";
 export { IngestControllerEngine } from "./engine/ingest-controller.engine";
 export { InjectSubscriberFactory } from "./decorators/inject-subscriber-factory.decorator";
 export { MessageListener } from "./decorators/message-listener.decorator";
@@ -14,12 +16,13 @@ export { SubscriberFactory } from "./factories/subscriber.factory";
 export { CQRSModule } from "./cqrs.module";
 export {
   APPLICATION_NAME,
+  EVENT_CONFIGURATION,
   EVENT_LISTENER_FACTORY,
   EVENT_PUBLISHER,
   EVENT_READER,
   MessageType,
 } from "./cqrs.constants";
-export { parseStreamID } from "./cqrs.utilites";
+export { parseStreamID, upcastAndTransformEvent } from "./cqrs.utilites";
 
 export type { IEvent, IEventMetadata } from "./interfaces/event.interface";
 export type { IPublisher } from "./interfaces/publisher.interface";

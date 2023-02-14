@@ -1,6 +1,6 @@
 import { Message, MessageMetadata } from "./_base.message";
 import { Type } from "class-transformer";
-import { IEventMetadata } from "../interfaces/event.interface";
+import { IEvent, IEventMetadata } from "../interfaces/event.interface";
 
 export class EventMetadata extends MessageMetadata implements IEventMetadata {
   public $correlationId: string;

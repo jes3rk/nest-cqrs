@@ -1,6 +1,10 @@
 import { strictEqual } from "assert";
 import { ClassConstructor } from "class-transformer";
-import { AGGREGATE_METADATA } from "./cqrs.constants";
+import { ctPlainToInstance, CTStore } from "class-transformer-storage";
+import { AGGREGATE_METADATA, EVENT_CONFIGURATION } from "./cqrs.constants";
+import { IEvent, IEventMetadata } from "./interfaces/event.interface";
+import { Event } from "./classes/_base.event";
+import { IEventConfiguration } from "./interfaces/event-configuration.interface";
 
 /**
  * From {@link https://www.typescriptlang.org/docs/handbook/mixins.html}
@@ -47,6 +51,20 @@ export function generateStreamID(
       : Reflect.getMetadata(AGGREGATE_METADATA, aggregatePrototype)?.name ||
         aggregatePrototype.name.replace(/([Aa]ggregate)/, "");
   return prefix + "." + aggregateName.toLowerCase() + "." + aggregateId;
+}
+
+export function upcastAndTransformEvent(rawEvent: IEvent): IEvent {
+  const constructor = CTStore.get(rawEvent.$name);
+  const metadata: IEventConfiguration = Reflect.getMetadata(
+    EVENT_CONFIGURATION,
+    constructor,
+  );
+  return ctPlainToInstance(
+    metadata?.versioner
+      ? new metadata.versioner().upcastToVersion(rawEvent)
+      : rawEvent,
+    { getName: (plain) => plain["$name"] },
+  );
 }
 
 export function parseStreamID(streamId: string): {
