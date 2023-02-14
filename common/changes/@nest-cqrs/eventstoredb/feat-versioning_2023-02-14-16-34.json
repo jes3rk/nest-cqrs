@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@nest-cqrs/eventstoredb",
+      "comment": "Leverage new event versioning API to version events on parsing from EventStoreDB",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@nest-cqrs/eventstoredb"
+}

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@nest-cqrs/core",
+      "comment": "Create API for versioning events cleanly via a configuration decorator",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@nest-cqrs/core"
+}
