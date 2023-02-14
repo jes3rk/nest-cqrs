@@ -4,6 +4,7 @@ import { faker } from "@faker-js/faker";
 import { MessageRequestState, MessageType } from "../cqrs.constants";
 import { IPrePublishMiddleware } from "../interfaces/prepublish-middleware.interface";
 import { InvalidMessageRequestStateException } from "../exceptions/invalid-message-request-state.exception";
+import { IEvent } from "../interfaces/event.interface";
 
 describe("MessageRequest", () => {
   describe("generateMessageRequest", () => {
@@ -114,8 +115,10 @@ describe("MessageRequest", () => {
           $name: "TestMessage",
           $payload: {},
           $uuid: faker.datatype.uuid(),
-        },
+          $version: 1,
+        } as IEvent,
         MessageType.EVENT,
+        "demo",
       );
     });
 
@@ -146,8 +149,10 @@ describe("MessageRequest", () => {
           $name: "TestMessage",
           $payload: {},
           $uuid: faker.datatype.uuid(),
-        },
+          $version: 1,
+        } as IEvent,
         MessageType.EVENT,
+        "demo",
       );
       message["state"] = MessageRequestState.APPLY_PREPROCESS_MIDDLEWARE;
     });

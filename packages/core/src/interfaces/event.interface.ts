@@ -8,4 +8,5 @@ export interface IEventMetadata extends IMessageMetadata, RequestMetadata {
 export interface IEvent extends IMessage {
   $metadata: IEventMetadata;
   $streamId: string;
+  readonly $version: number;
 }

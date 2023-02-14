@@ -1,6 +1,10 @@
 import { jsonEvent, JSONEventType } from "@eventstore/db-client";
 import { instanceToPlain } from "class-transformer";
-import { IEvent, IEventMetadata } from "@nest-cqrs/core/";
+import {
+  IEvent,
+  IEventMetadata,
+  upcastAndTransformEvent,
+} from "@nest-cqrs/core";
 import { JSONEvent } from "../types/json-event-type";
 import { ctPlainToInstance } from "class-transformer-storage";
 
@@ -38,6 +42,6 @@ export class EventParser {
       $uuid: id,
       ...data,
     };
-    return ctPlainToInstance(plain, { getName: (plain) => plain["$name"] });
+    return upcastAndTransformEvent(plain as IEvent);
   }
 }

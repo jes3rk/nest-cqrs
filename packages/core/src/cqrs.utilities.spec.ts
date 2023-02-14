@@ -1,10 +1,17 @@
 import { faker } from "@faker-js/faker";
+import { Event } from "./classes/_base.event";
+import { instanceToPlain } from "class-transformer";
+import { EventVersioner } from "./classes/_base.event-versioner";
 import {
   generateStreamID,
   initializeAndAddToArrayMap,
   parseStreamID,
+  upcastAndTransformEvent,
 } from "./cqrs.utilites";
 import { Aggregate } from "./decorators/aggregate.decorator";
+import { IEvent } from "./interfaces/event.interface";
+import { EventConfiguration } from "./decorators/event-configuration.decorator";
+import { IEventVersioner } from "./interfaces/event-versioner.interface";
 
 describe("Utilities", () => {
   describe("initializeAndAddToArrayMap", () => {
@@ -60,6 +67,53 @@ describe("Utilities", () => {
       expect(generateStreamID(prefix, id, "hello")).toEqual(
         `${prefix}.hello.${id}`,
       );
+    });
+  });
+
+  describe("upcastAndTransformEvent", () => {
+    class TemplateEventVersioner
+      extends EventVersioner
+      implements IEventVersioner
+    {
+      public upcastToVersion(event: IEvent): IEvent {
+        switch (event.$version) {
+          case 1:
+            return this.upcastToVersion({
+              ...event,
+              $payload: "default string",
+              $version: 2,
+            });
+          default:
+            return event;
+        }
+      }
+    }
+
+    @EventConfiguration({
+      versioner: TemplateEventVersioner,
+    })
+    class TemplateEvent extends Event implements IEvent {
+      public readonly $version: number = 2;
+      public readonly $payload: string;
+    }
+
+    it("will pass an event already at the latest version", () => {
+      const event = instanceToPlain(new TemplateEvent());
+
+      expect(upcastAndTransformEvent(event as IEvent)).toBeInstanceOf(
+        TemplateEvent,
+      );
+    });
+
+    it("will upgrade an event that is in an older version", () => {
+      const event = instanceToPlain(new TemplateEvent());
+      event.$version = 1;
+      event.$payload = undefined;
+
+      const upcastedEvent = upcastAndTransformEvent(event as IEvent);
+      expect(upcastedEvent).toBeInstanceOf(TemplateEvent);
+      expect(upcastedEvent.$version).toEqual(2);
+      expect(upcastedEvent.$payload).toEqual(expect.any(String));
     });
   });
 

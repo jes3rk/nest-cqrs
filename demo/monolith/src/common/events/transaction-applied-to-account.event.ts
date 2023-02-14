@@ -1,6 +1,5 @@
 import { Type } from "class-transformer";
-import { RegisterType } from "class-transformer-storage";
-import { Event, IEvent } from "@nest-cqrs/core";
+import { Event, EventConfiguration, IEvent } from "@nest-cqrs/core";
 import { ITransaction } from "../../accounting/transaction/transaction.interface";
 
 class TransactionAppliedToAccountPayload
@@ -10,8 +9,9 @@ class TransactionAppliedToAccountPayload
   id: string;
 }
 
-@RegisterType()
+@EventConfiguration({})
 export class TransactionAppliedToAccountEvent extends Event implements IEvent {
   @Type(() => TransactionAppliedToAccountPayload)
   $payload: TransactionAppliedToAccountPayload;
+  public readonly $version: number = 1;
 }
