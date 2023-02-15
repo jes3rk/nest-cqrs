@@ -3,9 +3,12 @@ import { MessengerModule } from "nest-messenger";
 import { AppController } from "./app.controller";
 import { CQRSModule } from "@nest-cqrs/core";
 import { configureEventStoreDB } from "@nest-cqrs/eventstoredb";
+import { HotelModule } from "./hotel/hotel.module";
+import { VoyageModule } from "./voyage/voyage.module";
 
 @Module({
   imports: [
+    HotelModule,
     CQRSModule.forRoot({
       applicationName: "voyager",
       eventStoreConfig: configureEventStoreDB({
@@ -18,6 +21,7 @@ import { configureEventStoreDB } from "@nest-cqrs/eventstoredb";
       }),
     }),
     MessengerModule,
+    VoyageModule,
   ],
   controllers: [AppController],
 })
