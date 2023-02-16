@@ -5,6 +5,7 @@ import { CQRSModule } from "@nest-cqrs/core";
 import { configureEventStoreDB } from "@nest-cqrs/eventstoredb";
 import { HotelModule } from "./hotel/hotel.module";
 import { VoyageModule } from "./voyage/voyage.module";
+import { TypeOrmModule } from "@nestjs/typeorm";
 
 @Module({
   imports: [
@@ -21,6 +22,17 @@ import { VoyageModule } from "./voyage/voyage.module";
       }),
     }),
     MessengerModule,
+    TypeOrmModule.forRoot({
+      autoLoadEntities: true,
+      database: "postgres",
+      dropSchema: true,
+      host: "localhost",
+      password: "cqrs",
+      port: 5432,
+      synchronize: true,
+      type: "postgres",
+      username: "postgres",
+    }),
     VoyageModule,
   ],
   controllers: [AppController],
