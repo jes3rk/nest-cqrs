@@ -16,7 +16,7 @@ describe("EventClient", () => {
         {
           provide: RequestEngine,
           useValue: {
-            handleMessageRequest: jest.fn(),
+            handleMessageRequests: jest.fn(),
           },
         },
       ],
@@ -32,6 +32,7 @@ describe("EventClient", () => {
 
   describe("emit", () => {
     class TestEvent extends Event implements IEvent {
+      public $version = 1;
       public $payload: Record<string, unknown> = {};
     }
     let event: TestEvent;
@@ -41,15 +42,15 @@ describe("EventClient", () => {
     });
 
     it("will create a message request and pass to the engine", async () => {
-      const handleSpy = jest.spyOn(engine, "handleMessageRequest");
+      const handleSpy = jest.spyOn(engine, "handleMessageRequests");
       await eventClient.emit(event);
 
-      expect(handleSpy).toHaveBeenCalledWith(
+      expect(handleSpy).toHaveBeenCalledWith([
         expect.objectContaining({
           messageType: MessageType.EVENT,
           _message: event,
         }),
-      );
+      ]);
     });
   });
 });
