@@ -12,7 +12,7 @@ export class MessagePublisher {
   public async publish(message: MessageRequest): Promise<void> {
     switch (message.messageType) {
       case MessageType.EVENT:
-        return this.eventPublisher.publish(message.toPlainMessage());
+        return this.eventPublisher.publish([message.toPlainMessage()]);
     }
   }
 }

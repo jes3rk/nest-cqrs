@@ -54,7 +54,6 @@ describe("RequestEngine", () => {
         DiscoveryService,
         TestFilter,
         ScopedTestPreMiddleware,
-        IngestControllerEngine,
         {
           provide: MessagePublisher,
           useValue: {

@@ -48,7 +48,7 @@ describe("MessagePublisher", () => {
       await publisher.publish(message);
 
       expect(eventSpy).toHaveBeenCalledTimes(1);
-      expect(eventSpy).toHaveBeenCalledWith(message.toPlainMessage());
+      expect(eventSpy).toHaveBeenCalledWith([message.toPlainMessage()]);
     });
   });
 });
