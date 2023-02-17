@@ -26,7 +26,7 @@ describe("Voyage", () => {
 
     wsClient = await WsClient.fromApplication(app);
     wsClient.sendMessage({
-      event: "account/by_client_id",
+      event: "voyage/by_client_id",
       data: { clientId },
     });
   });
@@ -38,7 +38,18 @@ describe("Voyage", () => {
 
   // this block of tests is designed to be run synchronously
   describe("planning a voyage", () => {
-    it.todo("will create a new voyage for planning");
+    it("will create a new voyage for planning", () => {
+      const travelerId = faker.datatype.uuid();
+      return request(server)
+        .post("/voyage")
+        .set("x-cqrs-client-id", clientId)
+        .send({ travelerId })
+        .expect(201)
+        .expect(({ body }) => {
+          expect(body).toHaveProperty("voyageId");
+        });
+    });
+
     it.todo("will create a new hotel booking linked to the voyage");
   });
 });
