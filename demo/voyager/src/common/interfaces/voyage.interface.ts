@@ -7,6 +7,7 @@ export interface IVoyageLeg {
 }
 
 export interface IVoyage {
+  createdAt: Date;
   id: string;
   // Assume only one traveler per voyage
   travelerId: string;
