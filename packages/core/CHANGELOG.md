@@ -1,6 +1,14 @@
 # Change Log - @nest-cqrs/core
 
-This log was last generated on Tue, 14 Feb 2023 16:35:17 GMT and should not be manually modified.
+This log was last generated on Fri, 17 Feb 2023 16:27:06 GMT and should not be manually modified.
+
+## 1.3.0
+
+Fri, 17 Feb 2023 16:27:06 GMT
+
+### Minor changes
+
+- Update event publishing behavior to handle puslishing multiple events as a single transaction
 
 ## 1.2.0
 
