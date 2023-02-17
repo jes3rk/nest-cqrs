@@ -2,6 +2,23 @@
   "name": "@nest-cqrs/eventstoredb",
   "entries": [
     {
+      "version": "1.2.0",
+      "tag": "@nest-cqrs/eventstoredb_v1.2.0",
+      "date": "Fri, 17 Feb 2023 16:27:06 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Update publisher to match new interface"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@nest-cqrs/core\" from `*` to `*`"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.1.0",
       "tag": "@nest-cqrs/eventstoredb_v1.1.0",
       "date": "Tue, 14 Feb 2023 16:35:17 GMT",
