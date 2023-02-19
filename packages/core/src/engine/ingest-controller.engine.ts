@@ -16,6 +16,7 @@ import { initializeAndAddToArrayMap } from "../cqrs.utilites";
 import { MessageRequest } from "../classes/message-request.class";
 import { IPreProcessMiddleware } from "../interfaces/preprocess-middleware.interface";
 import { IEvent } from "../interfaces/event.interface";
+import { instanceToInstance } from "class-transformer";
 
 type HandlerFn<T extends IMessage> = (message: T) => void | Promise<void>;
 
@@ -77,13 +78,14 @@ export class IngestControllerEngine implements OnApplicationBootstrap {
   }
 
   public handleIngestRequest(message: MessageRequest): Promise<void> {
+    const _message = instanceToInstance(message);
     switch (message.STATE) {
       case MessageRequestState.INGESTED:
-        return this._handleStateIngested(message);
+        return this._handleStateIngested(_message);
       case MessageRequestState.APPLY_PREPROCESS_MIDDLEWARE:
-        return this._handleStateProcess(message);
+        return this._handleStateProcess(_message);
       case MessageRequestState.APPLY_FILTERS:
-        return this._handleStateFilters(message);
+        return this._handleStateFilters(_message);
     }
   }
 
