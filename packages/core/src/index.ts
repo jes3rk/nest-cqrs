@@ -21,8 +21,13 @@ export {
   EVENT_PUBLISHER,
   EVENT_READER,
   MessageType,
+  REQUEST_CLIENT_HEADER,
 } from "./cqrs.constants";
-export { parseStreamID, upcastAndTransformEvent } from "./cqrs.utilites";
+export {
+  initializeAndAddToArrayMap,
+  parseStreamID,
+  upcastAndTransformEvent,
+} from "./cqrs.utilites";
 
 export type { IEvent, IEventMetadata } from "./interfaces/event.interface";
 export type { IPublisher } from "./interfaces/publisher.interface";

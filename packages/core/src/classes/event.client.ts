@@ -11,16 +11,23 @@ export class EventClient {
   /**
    * Emit events to the store and the wider ecosystem
    *
-   * @param event Event to distribute
+   * @param event Event or events to distribute
    */
-  public async emit(event: IEvent): Promise<void> {
-    const message = MessageRequest.generateRequest(event, MessageType.EVENT);
-    return this.engine.handleMessageRequest(message);
+  public async emit(event: IEvent | IEvent[]): Promise<void> {
+    if (Array.isArray(event)) return this.emitMany(event);
+    return this.emitMany([event]);
   }
 
+  /**
+   * Emit events to the store and the wider ecosystem
+   *
+   * @param event Event or events to distribute
+   * @deprecated Will be removed from the public API
+   */
   public async emitMany(events: IEvent[]): Promise<void> {
-    for await (const event of events) {
-      await this.emit(event);
-    }
+    const messages = events.map((e) =>
+      MessageRequest.generateRequest(e, MessageType.EVENT),
+    );
+    await this.engine.handleMessageRequests(messages);
   }
 }

@@ -13,7 +13,7 @@ export class RequestMetadataMiddleware implements IPrePublishMiddleware {
   apply(message: IEvent): IMessage | Promise<IMessage> {
     const metadata = this.cls.get<RequestMetadata>(REQUEST_METADATA);
     if (!metadata) return message;
-    message.$metadata = { ...message.$metadata, ...metadata };
+    message.$metadata = { ...metadata, ...message.$metadata };
     return message;
   }
 }

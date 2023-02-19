@@ -13,6 +13,7 @@ import { IPublisher } from "../interfaces/publisher.interface";
 import { MessagePublisher } from "../publishers/message.publisher";
 import { Message } from "../classes/_base.message";
 import { IngestControllerEngine } from "./ingest-controller.engine";
+import { FailedToPublishMessagesException } from "../exceptions/failed-to-publish-messages.exception";
 
 describe("RequestEngine", () => {
   let engine: RequestEngine;
@@ -54,7 +55,6 @@ describe("RequestEngine", () => {
         DiscoveryService,
         TestFilter,
         ScopedTestPreMiddleware,
-        IngestControllerEngine,
         {
           provide: MessagePublisher,
           useValue: {
@@ -97,13 +97,13 @@ describe("RequestEngine", () => {
     });
 
     it(`will transition the state of the message request to ${MessageRequestState.PUBLISH}`, async () => {
-      await engine.handleMessageRequest(message);
+      await engine.handleMessageRequests([message]);
       expect(message.STATE).toEqual(MessageRequestState.PUBLISH);
     });
 
     it("will apply global prepublish middleware functions", async () => {
       const preSpy = jest.spyOn(preMiddleware, "apply");
-      await engine.handleMessageRequest(message);
+      await engine.handleMessageRequests([message]);
 
       expect(preSpy).toHaveBeenCalledTimes(1);
       expect(preSpy).toHaveBeenCalledWith(message.message);
@@ -111,7 +111,7 @@ describe("RequestEngine", () => {
 
     it("will apply local prepublish middleware functions", async () => {
       const preSpy = jest.spyOn(scopedPreMiddleware, "apply");
-      await engine.handleMessageRequest(message);
+      await engine.handleMessageRequests([message]);
 
       expect(preSpy).toHaveBeenCalledTimes(1);
       expect(preSpy).toHaveBeenCalledWith(message.message);
@@ -122,7 +122,9 @@ describe("RequestEngine", () => {
         .spyOn(preMiddleware, "apply")
         .mockRejectedValue(new Error());
       const filterSpy = jest.spyOn(filter, "catch");
-      await engine.handleMessageRequest(message);
+      await expect(() =>
+        engine.handleMessageRequests([message]),
+      ).rejects.toThrowError(FailedToPublishMessagesException);
 
       expect(preSpy).toHaveBeenCalled();
       expect(filterSpy).toHaveBeenCalledTimes(1);
@@ -131,9 +133,9 @@ describe("RequestEngine", () => {
 
     it("will call publisher.publish", async () => {
       const publishSpy = jest.spyOn(publisher, "publish");
-      await engine.handleMessageRequest(message);
+      await engine.handleMessageRequests([message]);
       expect(publishSpy).toHaveBeenCalledTimes(1);
-      expect(publishSpy).toHaveBeenCalledWith(message);
+      expect(publishSpy).toHaveBeenCalledWith([message]);
     });
   });
 });

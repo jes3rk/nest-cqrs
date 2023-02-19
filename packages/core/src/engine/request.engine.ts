@@ -14,8 +14,7 @@ import { DiscoveryService } from "@nestjs/core";
 import { MessagePublisher } from "../publishers/message.publisher";
 import { IEvent } from "../interfaces/event.interface";
 import { initializeAndAddToArrayMap } from "../cqrs.utilites";
-import { IngestControllerEngine } from "./ingest-controller.engine";
-
+import { FailedToPublishMessagesException } from "../exceptions/failed-to-publish-messages.exception";
 @Injectable()
 export class RequestEngine implements OnApplicationBootstrap {
   private globalPrePublishMiddleware: IPrePublishMiddleware[];
@@ -28,7 +27,6 @@ export class RequestEngine implements OnApplicationBootstrap {
   constructor(
     private readonly explorer: DiscoveryService,
     private readonly publisher: MessagePublisher,
-    private readonly ingestEngine: IngestControllerEngine,
   ) {
     this.globalPrePublishMiddleware = [];
     this.scopedPrePublishMiddleware = new Map();
@@ -36,15 +34,20 @@ export class RequestEngine implements OnApplicationBootstrap {
     this.filters = new Map();
   }
 
-  private async _handleStateFilters(message: MessageRequest): Promise<void> {
+  private async _handleStateFilters(
+    message: MessageRequest,
+  ): Promise<MessageRequest> {
     if (this.filters.has(message.error.name)) {
       for await (const filter of this.filters.get(message.error.name)) {
         await filter.catch(message.error, undefined);
       }
     }
+    return message;
   }
 
-  private async _handleStateInitiated(message: MessageRequest): Promise<void> {
+  private async _handleStateInitiated(
+    message: MessageRequest,
+  ): Promise<MessageRequest> {
     try {
       message.setStatePrePublish();
       for await (const middleware of this.globalPrePublishMiddleware.concat(
@@ -58,26 +61,51 @@ export class RequestEngine implements OnApplicationBootstrap {
     return this.handleMessageRequest(message);
   }
 
-  private async _handleStatePublish(message: MessageRequest): Promise<void> {
+  private async _handleStatePublish(
+    message: MessageRequest,
+  ): Promise<MessageRequest> {
     try {
       message.setStatePublish();
-      await this.publisher.publish(message);
     } catch (err) {
       message.setStateErrored(err);
     }
     return this.handleMessageRequest(message);
   }
 
-  public handleMessageRequest(message: MessageRequest): Promise<void> {
+  private handleMessageRequest(
+    message: MessageRequest,
+  ): Promise<MessageRequest> {
     switch (message.STATE) {
       case MessageRequestState.INITIATED:
         return this._handleStateInitiated(message);
       case MessageRequestState.APPLY_PREPUBLISH_MIDDLEWARE:
         return this._handleStatePublish(message);
-
       case MessageRequestState.APPLY_FILTERS:
         return this._handleStateFilters(message);
+      default:
+        return Promise.resolve(message);
     }
+  }
+
+  public async handleMessageRequests(
+    messages: MessageRequest[],
+  ): Promise<void> {
+    const processedMessages = await Promise.all(
+      messages.map((m) => this.handleMessageRequest(m)),
+    );
+    if (
+      !processedMessages.every(
+        (message) => message.STATE === MessageRequestState.PUBLISH,
+      )
+    )
+      throw new FailedToPublishMessagesException(
+        processedMessages
+          .filter(
+            (message) => message.STATE === MessageRequestState.APPLY_FILTERS,
+          )
+          .map((message) => message.toPlainMessage()),
+      );
+    await this.publisher.publish(processedMessages);
   }
 
   public onApplicationBootstrap() {

@@ -1,5 +1,5 @@
 import { IMessage } from "./message.interface";
 
 export interface IPublisher {
-  publish(message: IMessage): Promise<void>;
+  publish(message: IMessage[]): Promise<void>;
 }

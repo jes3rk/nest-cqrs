@@ -45,10 +45,10 @@ describe("MessagePublisher", () => {
       );
       const eventSpy = jest.spyOn(eventPublisher, "publish");
 
-      await publisher.publish(message);
+      await publisher.publish([message]);
 
       expect(eventSpy).toHaveBeenCalledTimes(1);
-      expect(eventSpy).toHaveBeenCalledWith(message.toPlainMessage());
+      expect(eventSpy).toHaveBeenCalledWith([message.toPlainMessage()]);
     });
   });
 });

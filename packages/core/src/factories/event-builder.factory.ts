@@ -16,6 +16,9 @@ export class EventBuilderFactory {
     @Inject(APPLICATION_NAME) private readonly applicationName: string,
   ) {}
 
+  /**
+   * Create an event builder tailored for the provided aggregate
+   */
   public generateEventBuilderFromComponents(
     streamName: string,
     aggregateId: string,
@@ -30,6 +33,9 @@ export class EventBuilderFactory {
       });
   }
 
+  /**
+   * Create an event builder tailored for the provided aggregate
+   */
   public generateEventBuilderFromAggregate(
     aggregate: IAggregateRoot,
     correlationId?: string,
