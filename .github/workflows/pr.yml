@@ -17,6 +17,8 @@ jobs:
           fetch-depth: 0
       - name: Setup Node
         uses: actions/setup-node@v3.1.1
+        with:
+          node_version: 16.x
       - name: Restore cache
         uses: actions/cache@v3.2.4
         with:
