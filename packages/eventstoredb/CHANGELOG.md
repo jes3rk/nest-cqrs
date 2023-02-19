@@ -1,6 +1,14 @@
 # Change Log - @nest-cqrs/eventstoredb
 
-This log was last generated on Fri, 17 Feb 2023 16:27:06 GMT and should not be manually modified.
+This log was last generated on Sun, 19 Feb 2023 17:37:57 GMT and should not be manually modified.
+
+## 1.2.1
+
+Sun, 19 Feb 2023 17:37:57 GMT
+
+### Patches
+
+- Upgrade dependencies
 
 ## 1.2.0
 
