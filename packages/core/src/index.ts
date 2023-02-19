@@ -21,6 +21,7 @@ export {
   EVENT_PUBLISHER,
   EVENT_READER,
   MessageType,
+  REQUEST_CLIENT_HEADER,
 } from "./cqrs.constants";
 export {
   initializeAndAddToArrayMap,

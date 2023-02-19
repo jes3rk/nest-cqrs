@@ -14,7 +14,6 @@ import { DiscoveryService } from "@nestjs/core";
 import { MessagePublisher } from "../publishers/message.publisher";
 import { IEvent } from "../interfaces/event.interface";
 import { initializeAndAddToArrayMap } from "../cqrs.utilites";
-import { instanceToInstance } from "class-transformer";
 import { FailedToPublishMessagesException } from "../exceptions/failed-to-publish-messages.exception";
 @Injectable()
 export class RequestEngine implements OnApplicationBootstrap {
