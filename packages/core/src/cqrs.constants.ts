@@ -10,6 +10,7 @@ export const INGEST_ENDPOINT_METADATA = "__ingest-endpoint__";
 export const NAMESPACE = "__namespace__";
 export const PREPROCESS_MIDDLEWARE_METADATA = "__preprocess-middleware__";
 export const PREPUBLISH_MIDDLEWARE_METADATA = "__prepublish-middleware__";
+export const REQUEST_CLIENT_HEADER = "x-cqrs-client-id";
 
 export const REQUEST_METADATA = "__request-metadata__";
 
