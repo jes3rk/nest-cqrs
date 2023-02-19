@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@nest-cqrs/eventstoredb",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@nest-cqrs/eventstoredb"
+}
