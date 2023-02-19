@@ -2,6 +2,18 @@
   "name": "nest-messenger",
   "entries": [
     {
+      "version": "1.0.1",
+      "tag": "nest-messenger_v1.0.1",
+      "date": "Sun, 19 Feb 2023 17:37:57 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Upgrade dependencies"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.0",
       "tag": "nest-messenger_v1.0.0",
       "date": "Mon, 30 Jan 2023 12:19:04 GMT",
