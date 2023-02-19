@@ -16,6 +16,13 @@ export class AggregateFactory {
     @Inject(EVENT_READER) protected readonly reader: IEventReader,
   ) {}
 
+  /**
+   * Load an instance of an aggregate from the event store by applying
+   * all events in the stream to the aggregate in sequence.
+   *
+   * @param aggregateId ID of the instance to create
+   * @param aggregate Constructor of the instance
+   */
   public async loadAggregateFromStream<T extends IAggregateRoot>(
     aggregateId: string,
     aggregate: AggregateConstructor<T>,
