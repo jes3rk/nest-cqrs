@@ -345,6 +345,10 @@
     {
       "packageName": "@demo/monolith",
       "projectFolder": "demo/monolith"
+    },
+    {
+      "packageName": "@demo/voyager",
+      "projectFolder": "demo/voyager"
     }
     // {
     //   /**
