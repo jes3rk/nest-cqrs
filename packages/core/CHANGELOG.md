@@ -1,6 +1,14 @@
 # Change Log - @nest-cqrs/core
 
-This log was last generated on Mon, 20 Mar 2023 17:00:37 GMT and should not be manually modified.
+This log was last generated on Mon, 20 Mar 2023 17:10:42 GMT and should not be manually modified.
+
+## 1.3.4
+
+Mon, 20 Mar 2023 17:10:42 GMT
+
+### Patches
+
+- Add export for CQRSFilter decorator
 
 ## 1.3.3
 
