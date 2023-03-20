@@ -4,6 +4,7 @@ export { Aggregate } from "./decorators/aggregate.decorator";
 export { AggregateFactory } from "./factories/aggregate.factory";
 export { AggregateRoot } from "./classes/aggregate.root";
 export { Apply } from "./decorators/apply.decorator";
+export { CQRSFilter } from "./decorators/cqrs-filter.decorator";
 export { Event } from "./classes/_base.event";
 export { EventBuilderFactory } from "./factories/event-builder.factory";
 export { EventClient } from "./classes/event.client";
