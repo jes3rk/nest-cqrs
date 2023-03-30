@@ -4,19 +4,12 @@ import {
   WebSocketGateway,
   WsResponse,
 } from "@nestjs/websockets";
-import {
-  IEvent,
-  InjectSubscriberFactory,
-  SubscriberFactory,
-} from "@nest-cqrs/core";
+import { IEvent, SubscriberFactory } from "@nest-cqrs/core";
 import { filter, map, Observable } from "rxjs";
 
 @WebSocketGateway()
 export class AccountingGateway {
-  constructor(
-    @InjectSubscriberFactory("accounting")
-    private readonly subscriberFactory: SubscriberFactory,
-  ) {}
+  constructor(private readonly subscriberFactory: SubscriberFactory) {}
 
   @SubscribeMessage("account/by_id")
   handleAccountById(@MessageBody() id: string): Observable<WsResponse<IEvent>> {

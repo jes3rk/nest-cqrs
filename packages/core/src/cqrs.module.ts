@@ -17,6 +17,7 @@ import {
   APPLICATION_NAME,
   EVENT_LISTENER_FACTORY,
   NAMESPACE,
+  TRANSIENT_LISTENER,
 } from "./cqrs.constants";
 import { EventListenerFactory } from "./interfaces/event-listener-factory.interface";
 import { SubscriberFactory } from "./factories/subscriber.factory";
@@ -33,11 +34,18 @@ export class CQRSModule {
   public static forFeature(config: CQRSModuleForFeature): DynamicModule {
     return {
       module: CQRSModule,
-      exports: [NAMESPACE],
+      exports: [NAMESPACE, SubscriberFactory],
       providers: [
         {
           provide: NAMESPACE,
           useValue: config.namespace,
+        },
+        {
+          provide: `EventListener::${config.namespace}`,
+          inject: [EVENT_LISTENER_FACTORY],
+          useFactory(factory: EventListenerFactory) {
+            return factory.provideForNamespace(config.namespace);
+          },
         },
         SubscriberFactory,
       ],
@@ -84,6 +92,7 @@ export class CQRSModule {
         EventClient,
         EventBuilderFactory,
         EVENT_LISTENER_FACTORY,
+        TRANSIENT_LISTENER,
         ...eventStoreConfig.exports,
       ],
       module: CQRSCoreModule,

@@ -1,7 +1,11 @@
 import { IEvent } from "../interfaces/event.interface";
 import { from, Observable, Subscription } from "rxjs";
 import { EventEmitter } from "events";
-import { Inject, OnApplicationShutdown } from "@nestjs/common";
+import {
+  Inject,
+  OnApplicationBootstrap,
+  OnApplicationShutdown,
+} from "@nestjs/common";
 import { TRANSIENT_LISTENER } from "../cqrs.constants";
 
 /**
@@ -9,7 +13,9 @@ import { TRANSIENT_LISTENER } from "../cqrs.constants";
  * on a given node. Useful for websocket pushes of events
  * to clients.
  */
-export class SubscriberFactory implements OnApplicationShutdown {
+export class SubscriberFactory
+  implements OnApplicationShutdown, OnApplicationBootstrap
+{
   private ee: EventEmitter;
   private rootSubscription: Subscription;
 
@@ -18,15 +24,18 @@ export class SubscriberFactory implements OnApplicationShutdown {
     private readonly transientSubscription: Observable<IEvent>,
   ) {
     this.ee = new EventEmitter();
+  }
+
+  public onApplicationShutdown() {
+    this.rootSubscription.unsubscribe();
+  }
+
+  public onApplicationBootstrap() {
     this.rootSubscription = this.transientSubscription.subscribe({
       next: (value) => {
         this.ee.emit("", value);
       },
     });
-  }
-
-  public onApplicationShutdown() {
-    this.rootSubscription.unsubscribe();
   }
 
   /**
