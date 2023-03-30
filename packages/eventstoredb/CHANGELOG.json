@@ -2,6 +2,23 @@
   "name": "@nest-cqrs/eventstoredb",
   "entries": [
     {
+      "version": "1.3.0",
+      "tag": "@nest-cqrs/eventstoredb_v1.3.0",
+      "date": "Thu, 30 Mar 2023 13:57:05 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Support changes in core for SubscriptionFactories"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@nest-cqrs/core\" from `*` to `*`"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.2.2",
       "tag": "@nest-cqrs/eventstoredb_v1.2.2",
       "date": "Mon, 20 Mar 2023 17:00:37 GMT",

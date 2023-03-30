@@ -1,6 +1,14 @@
 # Change Log - @nest-cqrs/eventstoredb
 
-This log was last generated on Mon, 20 Mar 2023 17:00:37 GMT and should not be manually modified.
+This log was last generated on Thu, 30 Mar 2023 13:57:05 GMT and should not be manually modified.
+
+## 1.3.0
+
+Thu, 30 Mar 2023 13:57:05 GMT
+
+### Minor changes
+
+- Support changes in core for SubscriptionFactories
 
 ## 1.2.2
 
