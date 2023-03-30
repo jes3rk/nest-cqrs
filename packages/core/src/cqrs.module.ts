@@ -31,29 +31,15 @@ export class CQRSModule {
    * by namespace to treat them as one consumer.
    */
   public static forFeature(config: CQRSModuleForFeature): DynamicModule {
-    const subscriberToken = `SubscriberFactory::${config.namespace}`;
     return {
       module: CQRSModule,
-      exports: [NAMESPACE, subscriberToken],
+      exports: [NAMESPACE],
       providers: [
         {
           provide: NAMESPACE,
           useValue: config.namespace,
         },
-        {
-          provide: `EventListener::${config.namespace}`,
-          inject: [EVENT_LISTENER_FACTORY, subscriberToken],
-          useFactory(
-            factory: EventListenerFactory,
-            subFactory: SubscriberFactory,
-          ) {
-            return factory.provideForNamespace(config.namespace, subFactory);
-          },
-        },
-        {
-          provide: subscriberToken,
-          useClass: SubscriberFactory,
-        },
+        SubscriberFactory,
       ],
     };
   }
