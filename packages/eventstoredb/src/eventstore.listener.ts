@@ -31,7 +31,6 @@ export class EventStoreListener
     private readonly client: EventStoreClient,
     private readonly ingestEngine: IngestControllerEngine,
     private readonly namespace: string,
-    private readonly subscriberFactory: SubscriberFactory,
   ) {}
 
   private async initSubscriptionGroupIfNotExists(): Promise<void> {
@@ -70,7 +69,6 @@ export class EventStoreListener
           this.namespace,
         );
         await this.ingestEngine.handleIngestRequest(messageRequest);
-        this.subscriberFactory.publishEvent(messageRequest.message as IEvent);
         await subscription.ack(data);
       } catch (err) {
         console.log(err);

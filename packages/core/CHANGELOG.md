@@ -1,6 +1,14 @@
 # Change Log - @nest-cqrs/core
 
-This log was last generated on Mon, 20 Mar 2023 17:10:42 GMT and should not be manually modified.
+This log was last generated on Thu, 30 Mar 2023 13:57:05 GMT and should not be manually modified.
+
+## 1.4.0
+
+Thu, 30 Mar 2023 13:57:05 GMT
+
+### Minor changes
+
+- Treat SubscriptionFactories as a fanout style subscriber and deperecate the InjectSubscription decorator
 
 ## 1.3.4
 

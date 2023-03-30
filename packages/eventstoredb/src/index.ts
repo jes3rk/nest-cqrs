@@ -3,15 +3,17 @@ import {
   CQRSProvider,
   EVENT_PUBLISHER,
   EVENT_READER,
+  TRANSIENT_LISTENER,
+  EVENT_LISTENER_FACTORY,
 } from "@nest-cqrs/core";
 import { EventStoreClient } from "./eventstore.client";
 import { EventStorePublisher } from "./eventstore.publisher";
 import { EVENT_STORE_CONFIG } from "./eventstore.constants";
 import { EventstoreDBConfig } from "./interfaces/eventstore.config";
-import { Provider } from "@nestjs/common";
+import { Provider, Scope } from "@nestjs/common";
 import { EventstoreReader } from "./eventstore.reader";
-import { EVENT_LISTENER_FACTORY } from "@nest-cqrs/core";
 import { EventStoreListenerFactory } from "./event-listener.factory";
+import { TransientSubscriptionFactory } from "./transient-listener.factory";
 
 export function configureEventStoreDB(config: {
   eventStoreConfig: CQRSProvider<EventstoreDBConfig>;
@@ -19,6 +21,7 @@ export function configureEventStoreDB(config: {
   return {
     providers: [
       EventStoreClient,
+      TransientSubscriptionFactory,
       {
         provide: EVENT_PUBLISHER,
         useClass: EventStorePublisher,
@@ -34,6 +37,13 @@ export function configureEventStoreDB(config: {
       {
         provide: EVENT_LISTENER_FACTORY,
         useClass: EventStoreListenerFactory,
+      },
+      {
+        provide: TRANSIENT_LISTENER,
+        inject: [TransientSubscriptionFactory],
+        useFactory(factory: TransientSubscriptionFactory) {
+          return factory.createTransientSubscription();
+        },
       },
     ],
     exports: [],

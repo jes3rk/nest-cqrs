@@ -4,20 +4,12 @@ import {
   MessageBody,
   WsResponse,
 } from "@nestjs/websockets";
-import {
-  EventListenerFactory,
-  IEvent,
-  InjectSubscriberFactory,
-  SubscriberFactory,
-} from "@nest-cqrs/core";
+import { IEvent, SubscriberFactory } from "@nest-cqrs/core";
 import { filter, map, Observable } from "rxjs";
 
 @WebSocketGateway()
 export class VoyageGateway {
-  constructor(
-    @InjectSubscriberFactory("voyage")
-    private readonly subscriberFactory: SubscriberFactory,
-  ) {}
+  constructor(private readonly subscriberFactory: SubscriberFactory) {}
 
   @SubscribeMessage("voyage/by_client_id")
   handleMessage(

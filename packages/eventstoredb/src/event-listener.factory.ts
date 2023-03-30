@@ -3,7 +3,6 @@ import {
   APPLICATION_NAME,
   EventListenerFactory,
   IngestControllerEngine,
-  SubscriberFactory,
 } from "@nest-cqrs/core";
 import { EventStoreListener } from "./eventstore.listener";
 import { EventStoreClient } from "./eventstore.client";
@@ -16,16 +15,12 @@ export class EventStoreListenerFactory implements EventListenerFactory {
     private readonly engine: IngestControllerEngine,
   ) {}
 
-  provideForNamespace(
-    namespace: string,
-    subscriberFactory: SubscriberFactory,
-  ): object {
+  provideForNamespace(namespace: string): object {
     return new EventStoreListener(
       this.applicationName,
       this.client,
       this.engine,
       namespace,
-      subscriberFactory,
     );
   }
 }
