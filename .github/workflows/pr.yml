@@ -105,12 +105,6 @@ jobs:
         ports:
         - "1113:1113"
         - "2113:2113"
-      nats:
-        image: nats
-        ports:
-        - 4222:4222
-        options: >-
-          --entrypoint "/nats-server -js"
       postgres:
         image: postgres:14
         env:
@@ -120,7 +114,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+    - name: Setup Nats
+      uses: onichandame/nats-action@0.0.0
     - name: Setup Node
+      if: ${{ matrix.store }} == "nats"
       uses: actions/setup-node@v3.1.1
       with:
         node-version: ${{ matrix.node-version }}
