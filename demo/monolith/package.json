@@ -43,6 +43,6 @@
     "class-transformer-storage": "*",
     "@nestjs/platform-ws": "~9.3.10",
     "@nestjs/websockets": "~9.3.10",
-    "@nest-cqrs/nats": "~1.3.0"
+    "@nest-cqrs/nats": "1.0.0"
   }
 }
