@@ -5,7 +5,7 @@
   "private": false,
   "repository": {
     "url": "https://github.com/jes3rk/nest-cqrs",
-    "directory": "packages/eventstoredb"
+    "directory": "packages/nats"
   },
   "peerDependencies": {
     "@nestjs/common": "~9.2.1",
@@ -27,7 +27,7 @@
   "scripts": {
     "build": "npm run prebuild && tsc -p tsconfig.build.json",
     "prebuild": "rimraf ./dist",
-    "test": "env JEST_ROOT_DIR=packages/eventstoredb jest --config ../../jest.config.js"
+    "test": "env JEST_ROOT_DIR=packages/nats jest --config ../../jest.config.js --passWithNoTests"
   },
   "dependencies": {
     "class-transformer": "~0.5.1",
