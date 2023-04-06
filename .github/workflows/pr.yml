@@ -87,7 +87,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        demo: [monolith, voyager],
+        demo: [monolith, voyager]
         store: [eventstoredb, nats]
     services:
       eventstoredb:
