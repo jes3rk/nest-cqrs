@@ -22,3 +22,8 @@ services:
       POSTGRES_PASSWORD: cqrs
     ports:
     - 5432:5432
+  nats:
+    image: nats
+    ports:
+    - 4222:4222
+    command: "-js"
