@@ -104,6 +104,14 @@ describe("Account", () => {
             e.$streamId.includes(accountId),
         );
       expect(event.$payload.amount).toEqual(input.amount);
+      await request(server)
+        .post(`/account/${accountId}/transaction`)
+        .set("x-cqrs-client-id", clientId)
+        .send(input)
+        .expect(201)
+        .expect(({ body }) => {
+          expect(body).toHaveProperty("rootId", accountId);
+        });
     });
 
     it("will throw a 400 if accountId isn't a uuid", () => {
