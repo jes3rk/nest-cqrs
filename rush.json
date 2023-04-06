@@ -41,7 +41,7 @@
    * LTS schedule: https://nodejs.org/en/about/releases/
    * LTS versions: https://nodejs.org/en/download/releases/
    */
-  "nodeSupportedVersionRange": ">=12.13.0 <13.0.0 || >=14.15.0 <15.0.0 || >=16.13.0 <17.0.0",
+  "nodeSupportedVersionRange": ">=12.13.0 <13.0.0 || >=14.15.0 <15.0.0 || >=16.13.0 <17.0.0 || >=18 <19",
 
   /**
    * Odd-numbered major versions of Node.js are experimental.  Even-numbered releases
@@ -330,6 +330,11 @@
     {
       "packageName": "@nest-cqrs/eventstoredb",
       "projectFolder": "packages/eventstoredb",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@nest-cqrs/nats",
+      "projectFolder": "packages/nats",
       "shouldPublish": true
     },
     {
