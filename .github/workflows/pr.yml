@@ -61,7 +61,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        package: [core, eventstoredb]
+        package: [core, eventstoredb, 'nats']
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -87,7 +87,8 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        demo: [monolith, voyager]
+        demo: [monolith, voyager],
+        store: [eventstoredb, nats]
     services:
       eventstoredb:
         image: eventstore/eventstore:latest
@@ -104,6 +105,11 @@ jobs:
         ports:
         - "1113:1113"
         - "2113:2113"
+      nats:
+        image: nats
+        ports:
+        - 4222:4222
+        command: "-js"
       postgres:
         image: postgres:14
         env:
@@ -129,7 +135,7 @@ jobs:
     - name: Test
       run: npm run test --prefix demo/${{ matrix.demo }}
     - name: Test:e2e
-      run: npm run test:e2e --prefix demo/${{ matrix.demo }}
+      run: env STORE_TYPE=${{ matrix.store }} npm run test:e2e --prefix demo/${{ matrix.demo }}
   publsh:
     runs-on: ubuntu-latest
     needs: [verify, test-utils, test-nest-cqrs, test-demo]

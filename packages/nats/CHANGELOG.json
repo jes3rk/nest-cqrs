@@ -1,0 +1,17 @@
+{
+  "name": "@nest-cqrs/nats",
+  "entries": [
+    {
+      "version": "1.0.0",
+      "tag": "@nest-cqrs/nats_v1.0.0",
+      "date": "Thu, 06 Apr 2023 15:03:31 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Create nats compatible event store"
+          }
+        ]
+      }
+    }
+  ]
+}

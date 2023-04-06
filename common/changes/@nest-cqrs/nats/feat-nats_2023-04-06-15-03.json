@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@nest-cqrs/nats",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@nest-cqrs/nats"
+}
