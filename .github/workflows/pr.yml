@@ -109,7 +109,8 @@ jobs:
         image: nats
         ports:
         - 4222:4222
-        command: "-js"
+        options:
+          "-js"
       postgres:
         image: postgres:14
         env:
