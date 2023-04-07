@@ -14,6 +14,7 @@ import { NatsClient } from "./nats.client";
 import { NatsPublisher } from "./nats.publisher";
 import { JetStreamReader } from "./nats.reader";
 import { TransientSubscriptionFactory } from "./transient-subscription.factory";
+import { StreamManager } from "./stream-manager";
 
 export function configureNats(config: {
   eventStoreConfig: CQRSProvider<NatsConfig>;
@@ -28,6 +29,7 @@ export function configureNats(config: {
       },
       NatsClient,
       TransientSubscriptionFactory,
+      StreamManager,
       {
         provide: EVENT_PUBLISHER,
         useClass: NatsPublisher,
