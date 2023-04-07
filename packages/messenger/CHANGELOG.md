@@ -1,6 +1,14 @@
 # Change Log - nest-messenger
 
-This log was last generated on Mon, 20 Mar 2023 17:00:37 GMT and should not be manually modified.
+This log was last generated on Fri, 07 Apr 2023 13:39:05 GMT and should not be manually modified.
+
+## 1.0.3
+
+Fri, 07 Apr 2023 13:39:05 GMT
+
+### Patches
+
+- Update dependencies
 
 ## 1.0.2
 

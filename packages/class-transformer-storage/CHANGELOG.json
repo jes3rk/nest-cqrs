@@ -2,6 +2,18 @@
   "name": "class-transformer-storage",
   "entries": [
     {
+      "version": "2.0.3",
+      "tag": "class-transformer-storage_v2.0.3",
+      "date": "Fri, 07 Apr 2023 13:39:05 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Update dependencies"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.2",
       "tag": "class-transformer-storage_v2.0.2",
       "date": "Mon, 20 Mar 2023 17:00:37 GMT",
