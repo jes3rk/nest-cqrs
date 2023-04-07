@@ -1,6 +1,6 @@
 {
   "name": "@nest-cqrs/core",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "private": false,
   "repository": {
     "url": "https://github.com/jes3rk/nest-cqrs",

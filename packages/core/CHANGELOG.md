@@ -1,6 +1,14 @@
 # Change Log - @nest-cqrs/core
 
-This log was last generated on Thu, 30 Mar 2023 13:57:05 GMT and should not be manually modified.
+This log was last generated on Fri, 07 Apr 2023 13:39:05 GMT and should not be manually modified.
+
+## 1.4.1
+
+Fri, 07 Apr 2023 13:39:05 GMT
+
+### Patches
+
+- Update dependencies
 
 ## 1.4.0
 

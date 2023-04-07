@@ -15,7 +15,7 @@
   "dependencies": {
     "@nest-cqrs/core": "*",
     "@nest-cqrs/eventstoredb": "*",
-    "@nest-cqrs/nats": "~1.0.0",
+    "@nest-cqrs/nats": "~1.0.1",
     "@nestjs/common": "~9.4.0",
     "@nestjs/core": "~9.4.0",
     "@nestjs/platform-express": "~9.4.0",

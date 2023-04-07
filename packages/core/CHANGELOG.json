@@ -2,6 +2,26 @@
   "name": "@nest-cqrs/core",
   "entries": [
     {
+      "version": "1.4.1",
+      "tag": "@nest-cqrs/core_v1.4.1",
+      "date": "Fri, 07 Apr 2023 13:39:05 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Update dependencies"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"class-transformer-storage\" from `*` to `*`"
+          },
+          {
+            "comment": "Updating dependency \"nest-messenger\" from `*` to `*`"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.4.0",
       "tag": "@nest-cqrs/core_v1.4.0",
       "date": "Thu, 30 Mar 2023 13:57:05 GMT",
