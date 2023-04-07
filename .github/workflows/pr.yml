@@ -89,35 +89,13 @@ jobs:
         node-version: [16.x]
         demo: [monolith, voyager]
         store: [eventstoredb, nats]
-    services:
-      eventstoredb:
-        image: eventstore/eventstore:latest
-        env:
-          EVENTSTORE_CLUSTER_SIZE: 1
-          EVENTSTORE_RUN_PROJECTIONS: All
-          EVENTSTORE_START_STANDARD_PROJECTIONS: true
-          EVENTSTORE_EXT_TCP_PORT: 1113
-          EVENTSTORE_HTTP_PORT: 2113
-          EVENTSTORE_INSECURE: true
-          EVENTSTORE_ENABLE_EXTERNAL_TCP: true
-          EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP: true
-          EVENTSTORE_MEM_DB: true
-        ports:
-        - "1113:1113"
-        - "2113:2113"
-      nats:
-        image: nats:latest
-      postgres:
-        image: postgres:14
-        env:
-          POSTGRES_PASSWORD: cqrs
-        ports:
-        - 5432:5432
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+    - uses: isbang/compose-action@v1.4.1
+      with:
+        down-flags: "--volumes"
     - name: Setup Node
-      if: ${{ matrix.store }} == "nats"
       uses: actions/setup-node@v3.1.1
       with:
         node-version: ${{ matrix.node-version }}
