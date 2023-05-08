@@ -1,6 +1,14 @@
 # Change Log - class-transformer-storage
 
-This log was last generated on Sun, 16 Apr 2023 12:31:43 GMT and should not be manually modified.
+This log was last generated on Mon, 08 May 2023 14:38:40 GMT and should not be manually modified.
+
+## 2.0.5
+
+Mon, 08 May 2023 14:38:40 GMT
+
+### Patches
+
+- Upgrade dependencies
 
 ## 2.0.4
 
