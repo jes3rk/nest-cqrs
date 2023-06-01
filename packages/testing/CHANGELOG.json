@@ -2,6 +2,26 @@
   "name": "@nest-cqrs/testing",
   "entries": [
     {
+      "version": "1.0.6",
+      "tag": "@nest-cqrs/testing_v1.0.6",
+      "date": "Thu, 01 Jun 2023 21:01:06 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Upgrade dependencies"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@nest-cqrs/core\" from `*` to `*`"
+          },
+          {
+            "comment": "Updating dependency \"nest-messenger\" from `*` to `*`"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.5",
       "tag": "@nest-cqrs/testing_v1.0.5",
       "date": "Mon, 08 May 2023 14:38:40 GMT",

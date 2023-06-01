@@ -1,6 +1,6 @@
 {
   "name": "@nest-cqrs/eventstoredb",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "private": false,
   "repository": {
     "url": "https://github.com/jes3rk/nest-cqrs",
